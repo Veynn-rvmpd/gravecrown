@@ -1,11 +1,11 @@
-# ⚔️ Gravecrown: The Broken Realm
+# Gravecrown: The Broken Realm
 
 > **Roguelike táctico de construcción de mazos (Deckbuilder) con estética grimdark inspirada en *Metaphor: ReFantazio* y *Darkest Dungeon*.**  
 > Desarrollado en JavaScript moderno (ES Modules), HTML5, CSS semántico con tipografía iluminada y Vite.
 
 ---
 
-## 📜 Descripción del Juego
+## Descripción del Juego
 
 En las tierras calcinadas de **Aethelgard**, la *Corona de Ceniza* —un antiguo artefacto que mantenía a los muertos en su reposo eterno— fue destrozada por la codicia del último Soberano. Tras siete años de lluvia incesante de polvo gris y criptas abiertas, los muertos se alzan en busca de calor vital.
 
@@ -13,9 +13,9 @@ Toma el mando de uno de los **9 Comandantes Desterrados** y lidera una expedici�
 
 ---
 
-## 🎮 Características Principales
+##  Características Principales
 
-### 👑 9 Comandantes con Mecánicas Propias
+###  9 Comandantes con Mecánicas Propias
 1. **Corina, la Rosa Desterrada**: Esgrima ágil con ropera y mecánica de **Pétalos Carmesí**. Con cada estocada acumula pétalos que potencian remates mortales como *Loto Sangriento* o la habilidad *Floración Carmesí*.
 2. **Lysander, el León de la Guardia**: Tácticas de hoplita con escudo pesado y pica de guerra. Habilidad *Guardia Inquebrantable* y acumulación de **Falange**.
 3. **Faye, la Cazadora Espectral**: Arquería a distancia y maniobras de viento. Dispara flechas de energía espiritual y activa *Paso del Viento* para eludir contragolpes.
@@ -28,7 +28,7 @@ Toma el mando de uno de los **9 Comandantes Desterrados** y lidera una expedici�
 
 ---
 
-### 🎨 Dirección de Arte Grimdark & Metaphor Cascade
+### Dirección de Arte Grimdark & Metaphor Cascade
 - **Menú Cinético en Cascada (`metaphorCascade.js`)**: Menú estilizado con transiciones de alto impacto, navegación ágil (teclado, ratón y táctil), siluetas vectoriales y selección dinámica de personajes.
 - **Cartas Metaphor (`card.js` & `card.css`)**: Sellos de cera con el coste de energía, marco ornamental 4:3, etiquetas góticas, siluetas vectoriales dinámicas en caso de falta de arte y efecto de inspección ampliada.
 - **Fondos Pictóricos de Alta Resolución**:
@@ -41,7 +41,7 @@ Toma el mando de uno de los **9 Comandantes Desterrados** y lidera una expedici�
 
 ---
 
-### 🗺️ Expedición y Combate Táctico
+###  Expedición y Combate Táctico
 - **Mapa de Nodos**: Avanza por nodos de combate, encuentros con enemigos de élite (*Fearsome Miniboss*), mercaderes misteriosos y campamentos de descanso.
 - **Sistema de Turnos e Intenciones**: Los enemigos anuncian previamente sus acciones (Ataques simples, Ataques con aturdimiento, Bloqueo o acumulación de Ruina).
 - **Cartas de Reacción**: Cartas instantáneas que se activan al recibir un golpe fuera de tu turno (como *Parada* o *Lirio Negro*).
@@ -51,7 +51,7 @@ Toma el mando de uno de los **9 Comandantes Desterrados** y lidera una expedici�
 
 ---
 
-### 📖 Subpáginas del Roster
+###  Subpáginas del Roster
 - **Colección**: Explorador completo de cartas filtradas por comandante y cartas neutrales.
 - **Habilidades**: Árboles de talentos pasivos desbloqueables mediante victorias frente a los jefes de zona.
 - **Arte / Galería**: Museo visual para inspeccionar ilustraciones de comandantes, bestias, reliquias, eventos y fondos.
@@ -60,7 +60,7 @@ Toma el mando de uno de los **9 Comandantes Desterrados** y lidera una expedici�
 
 ---
 
-### 🌐 Soporte Multilingüe (i18n)
+###  Soporte Multilingüe (i18n)
 El juego cuenta con traducción dinámica completa entre 3 idiomas:
 - 🇪🇸 **Español**
 - 🇬🇧 **English**
@@ -70,13 +70,13 @@ El idioma puede cambiarse al instante desde la barra superior de utilidades sin 
 
 ---
 
-### 🔊 Audio Procedural y BGM
+### Audio Procedural y BGM
 - **Efectos de sonido procedurales (`sfx.js`)**: Desarrollados con **Web Audio API** para garantizar sonido instantáneo sin necesidad de cargar archivos externos pesados (cortes de espada, colocación de cartas, defensa con escudo, victoria, derrota).
 - **Música ambiental**: Soporte para pistas de audio en bucle por zona y combate contra jefes, con control de silencio persistente en `localStorage`.
 
 ---
 
-## 🚀 Instalación y Ejecución
+##  Instalación y Ejecución
 
 ### Opción 1: Con Node.js y npm
 
@@ -107,7 +107,7 @@ deno run -A npm:vite build
 
 ---
 
-## 📁 Estructura del Proyecto
+## Estructura del Proyecto
 
 ```
 gravecrown/
@@ -149,7 +149,7 @@ gravecrown/
 
 ---
 
-## 🛠️ Guía de Extensión y Modding
+## Guía de Extensión y Modding
 
 ### Añadir una Carta Nueva
 1. En `src/data.js`, añade la carta dentro del objeto `CARDS`:
@@ -172,7 +172,7 @@ gravecrown/
 
 ---
 
-## 📜 Licencia
+## Licencia
 
 Proyecto de código abierto desarrollado bajo la licencia **MIT**.  
 Tipografías medievales y fuentes góticas utilizadas bajo licencia *SIL Open Font License (OFL)*.
