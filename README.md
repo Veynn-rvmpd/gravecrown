@@ -1,122 +1,178 @@
-# Gravecrown (prototipo)
-Roguelike de combate centrado en un comandante. HTML + CSS + JS (Vite solo como herramienta).
+# ⚔️ Gravecrown: The Broken Realm
 
-    npm install
-    npm run dev      # desarrollo
-    npm run build    # build estático en dist/
+> **Roguelike táctico de construcción de mazos (Deckbuilder) con estética grimdark inspirada en *Metaphor: ReFantazio* y *Darkest Dungeon*.**  
+> Desarrollado en JavaScript moderno (ES Modules), HTML5, CSS semántico con tipografía iluminada y Vite.
 
-## Imágenes (las pones tú)
-Colócalas en `public/assets/` y las rutas se configuran en `src/data.js` (campo `image`). Sin espacios ni tildes.
-Formato recomendado: WebP (PNG si hay transparencia). Proporción 5:7, misma resolución (p. ej. 750×1050).
+---
 
-| Carta | Ruta |
-|---|---|
-| Tajo Carbonizado | public/assets/cards/ash/ash-slash.webp |
-| Guardia de Hierro | public/assets/cards/ash/ember-guard.webp |
-| Paso entre Cenizas | public/assets/cards/ash/ash-step.webp |
-| Fuego Mortecino | public/assets/cards/ash/dying-fire.webp |
-| Parada | public/assets/cards/ash/parry.webp |
-| Corona Rota | public/assets/cards/neutral/broken-crown.webp |
-| Vael / Morra | public/assets/commanders/vael.webp, morra.webp |
-| Enemigos | public/assets/enemies/ash-raider.webp, crypt-specter.webp |
+## 📜 Descripción del Juego
 
-Para asociar una imagen a una carta, edita `image` de esa carta en `src/data.js`. Si falta, se muestra una tarjeta de error
-(nombre, "Imagen no encontrada", ruta e id) y el juego no se rompe. Si un retrato falta, se ve el nombre sobre fondo oscuro.
+En las tierras calcinadas de **Aethelgard**, la *Corona de Ceniza* —un antiguo artefacto que mantenía a los muertos en su reposo eterno— fue destrozada por la codicia del último Soberano. Tras siete años de lluvia incesante de polvo gris y criptas abiertas, los muertos se alzan en busca de calor vital.
 
-## Mejoras y novedades añadidas
-- **Integración visual Metaphor**: Se utiliza el componente de cartas elaborado (`card.js`) con sello de cera de coste, marco de arte 4:3, etiquetas, silueta de fallback vectorial y zoom táctil/clic.
-- **Menú principal cinético (`metaphorCascade.js`)**: Menú interactivo en cascada con selección de comandantes, siluetas vectoriales y animación inspirada en Metaphor: ReFantazio.
-- **Autoguardado y reanudación de expedición**: El progreso de la run se guarda automáticamente en `localStorage`. Si cierras o recargas el navegador, puedes reanudar la expedición desde el menú principal.
-- **Visualizador de mazo completo**: Botón "Ver mazo" en el mapa de expedición y en combate para consultar en cualquier momento la composición de tu mazo con conteo de copias.
-- **Contador de mazo y descarte en combate**: Indicador permanente en el panel lateral durante la batalla.
-- **Nuevas cartas**:
-  - *Golpe de Pira* (Ataque, Ceniza): 16 de daño, 3 de Quemado, 1 de Ruina.
-  - *Escudo de Cenizas* (Defensa, Ceniza): 16 de Bloqueo.
-  - *Sifón de Almas* (Magia, Morra): 7 de daño, recuperas 4 de vida y ganas 1 Recuerdo.
-  - *Muro del Osario* (Defensa, Morra): 18 de Bloqueo y ganas 2 Recuerdos.
-- **Nuevas reliquias**:
-  - *Cáliz de Sangre*: +1 de energía por turno.
-  - *Espejo de Obsidiana*: Empiezas cada combate con 6 de Bloqueo.
-  - *Vela del Sepulcro*: Recuperas 4 de vida adicional tras cada victoria.
-  - *Urna Dorada*: +35% de oro obtenido de los enemigos.
-- **Nuevos enemigos distribuidos por zonas**:
-  - *Sabueso de Ceniza* (Campos de Ceniza): Ataque rápido y agresivo.
-  - *Guardián de Tumba* (Cripta / Ciudadela): Alta defensa y contraataques pesados.
-  - *Cultista de la Ruina* (Cripta / Ciudadela): Ataque con aturdimiento y acumulación de Ruina.
-- **Efecto curación en cartas (`heal`)**: Soporte nativo para que cartas de comandante puedan restaurar vida en combate.
-- **Soporte de ejecución**: Compatible tanto con Node (`npm run build`) como con Deno (`deno run -A npm:vite build`).
+Toma el mando de uno de los **9 Comandantes Desterrados** y lidera una expedición a través de los **Campos de Ceniza**, las profundidades de la **Cripta Olvidada** y las ruinas de la **Ciudadela Calcinada** para reclamar los fragmentos de la corona.
 
-## Cómo añadir una carta
-1. Copia la imagen (WebP, proporción 5:7, sin espacios ni tildes) a `public/assets/cards/<carpeta>/mi-carta.webp`.
-   Si la carpeta es `ash` va a la pestaña Ceniza de la colección; cualquier otra, a Neutral.
-2. En `src/data.js`, dentro de `CARDS`, añade:
-   `"mi-carta": { id:"mi-carta", name:"Mi Carta", image:"/assets/cards/ash/mi-carta.webp", type:"attack", cost:1, description:"Inflige 6 de daño.", effects:[{a:"damage",n:6}] }`
-   Efectos disponibles: `damage` (n, burnBonus), `block`, `draw`, `burn`, `corruption`, `hurt`. Para una reacción añade `reaction:true`.
-3. En `src/i18n.js`, objeto `EN`, añade la traducción: `"mi-carta":["My Card","Deal 6 damage."]`. Los tipos nuevos van en `t_...`.
-4. Para que salga en el juego: añade el id a `deck` del comandante (mazo inicial) y/o a `REWARD_POOL` (recompensas).
-5. Un efecto nuevo: añade su `if (f.a === "...")` en `play()` (src/main.js) y su texto `ex_...` en i18n.js (es y en).
+---
 
-## Objetos
-Se definen en `ITEMS` (src/data.js) con sus efectos (`heal`, `block`, `damage`, `burn`) y el inventario inicial (`start`).
-Los textos van en `IT` (src/i18n.js). Se usan sin gastar energía en cualquier momento del combate; en el mapa, solo los de curación.
+## 🎮 Características Principales
 
-## Páginas legales
-Textos en `LEGAL` (src/i18n.js). Sustituye los [CORCHETES] por tus datos y revísalos con un profesional antes de publicar.
+### 👑 9 Comandantes con Mecánicas Propias
+1. **Corina, la Rosa Desterrada**: Esgrima ágil con ropera y mecánica de **Pétalos Carmesí**. Con cada estocada acumula pétalos que potencian remates mortales como *Loto Sangriento* o la habilidad *Floración Carmesí*.
+2. **Lysander, el León de la Guardia**: Tácticas de hoplita con escudo pesado y pica de guerra. Habilidad *Guardia Inquebrantable* y acumulación de **Falange**.
+3. **Faye, la Cazadora Espectral**: Arquería a distancia y maniobras de viento. Dispara flechas de energía espiritual y activa *Paso del Viento* para eludir contragolpes.
+4. **Valerius, el Inquisidor Quebrado**: Alabardero fanático guiado por la expiación y el celo implacable. Transforma el sufrimiento en poder sagrado.
+5. **Elora, la Druida Marchita**: Manipulación de espinas venenosas, esporas y corrupción botánica (*Abrazo de Espinas*).
+6. **Carmilla, la Dama Carmesí**: Vástago de la noche con mecánicas de **Sangrado** y **Festín Vampírico** que absorben la vitalidad del rival.
+7. **Kaelen, el Bardo del Réquiem**: Melodías fúnebres y acordes disonantes que alternan entre soporte táctico, aturdimientos y sonatas sónicas.
+8. **Malakor, el Brujo del Abismo**: Pactos sombríos, fuego fatuo y manipulación de la **Corrupción** del Vacío.
+9. **Roland, el Cruzado Inquebrantable**: Caballero de la Orden Sagrada con armadura gótica pesada, escudo bendito y espada consagrada para sentenciar a los herejes.
 
-## Animaciones
-Todo el combate se redibuja con `render()`, así que las animaciones se ponen en cola y se aplican justo después de dibujar:
-`fx("#cmdr","lunge-r")` añade una clase CSS temporal, y `flash("#enemy","-8")` añade clase `hit` + número flotante.
-Para una animación nueva: 1) crea `@keyframes` y una clase en `src/style.css`; 2) llama a `fx(selector, "tu-clase")` donde ocurra la acción
-(en `play()`, `endTurn()` o `useItem()`). Para animar según la carta, añade un campo `anim:"slash"` en la carta y usa `fx("#cmdr", card.anim)`.
-Para sprites/sprite sheets usa `background-position` con `steps()` en el `@keyframes`; para animaciones complejas, `element.animate()` (Web Animations API).
+---
 
-## Eventos, oro y cuenta
-- Cada enemigo suelta oro (`gold:[min,max]` en `ENEMIES`). Se gasta en el mercader.
-- Se cuentan los turnos jugados; cada 8-12 turnos aparece al azar un mercader, un lugar de descanso o el miniboss (`fearsome`).
-- Sección Arte: lista `ART` en `src/data.js`; pon la imagen en la ruta indicada y aparece sola.
-- Cuenta: nombre y avatar se guardan en localStorage (`account`). El PvP requerirá un servidor.
+### 🎨 Dirección de Arte Grimdark & Metaphor Cascade
+- **Menú Cinético en Cascada (`metaphorCascade.js`)**: Menú estilizado con transiciones de alto impacto, navegación ágil (teclado, ratón y táctil), siluetas vectoriales y selección dinámica de personajes.
+- **Cartas Metaphor (`card.js` & `card.css`)**: Sellos de cera con el coste de energía, marco ornamental 4:3, etiquetas góticas, siluetas vectoriales dinámicas en caso de falta de arte y efecto de inspección ampliada.
+- **Fondos Pictóricos de Alta Resolución**:
+  - *Menú y Crónicas*: Vista de catedral gótica en ruinas bajo cielos calcinados con viñeta dorada.
+  - *Campos de Ceniza (`ashfields.webp`)*: Párramos desolados y vestigios de guerra bajo ceniza constante.
+  - *La Cripta Olvidada (`crypt.webp`)*: Catacumbas sombrías con arcos de piedra y runas etéreas.
+  - *Ciudadela Calcinada (`citadel.webp`)*: Bastión central envuelto en fuego oscuro y nubes de tormenta.
+  - *Lugar de Descanso (`rest-site.webp`)*: Hoguera solitaria entre espadas rotas.
+  - *Mercader Errante (`merchant.webp`)*: Tenderete ambulante de reliquias a la luz de una lámpara de aceite.
 
-## Zonas, fondos y música
-Definidas en `ZONES` (src/data.js): cada zona tiene `nodes` combates y un jefe (`boss`). Al vencer al jefe pasas a la siguiente zona (+20 vida),
-cambian el fondo y la música, y los enemigos escalan un 40% por zona. Para añadir una zona: nueva entrada en `ZONES`, el jefe en `ENEMIES` y su nombre `e_<id>` en `src/i18n.js`.
-Archivos (los pones tú, usa música con licencia): `public/assets/backgrounds/{ashfields,crypt,citadel}.webp` y
-`public/assets/music/{menu,ashfields,ashfields-boss,crypt,crypt-boss,citadel,citadel-boss}.mp3`. Si falta un fondo se usa un degradado del color de la zona; si falta música no suena.
-El navegador solo permite sonido tras el primer clic. El botón 🔊/🔇 de la barra silencia y se recuerda.
+---
 
-## Guardar cartas y habilidades
-- En un lugar de descanso puedes **terminar la expedición**: las cartas conseguidas en la run se guardan (`profile.vault`) y empezarás las siguientes expediciones con ellas.
-  Si sigues y mueres, pierdes las cartas conseguidas en esa run; conservas el mazo base y lo ya guardado. Al completar la última zona también se guardan.
-- Cada jefe de zona da **1 punto de habilidad** (se conserva aunque mueras). Pestaña Habilidades: cada personaje tiene su árbol (`SKILLS` en src/data.js).
-  Efectos disponibles en `fx`: `hp`, `startBlock`, `firstAtk`, `gold`, `hand`, `energy`, `heal`, `potion`. Se aplican desde la siguiente expedición.
-- Todo se guarda en localStorage (`profile`).
+### 🗺️ Expedición y Combate Táctico
+- **Mapa de Nodos**: Avanza por nodos de combate, encuentros con enemigos de élite (*Fearsome Miniboss*), mercaderes misteriosos y campamentos de descanso.
+- **Sistema de Turnos e Intenciones**: Los enemigos anuncian previamente sus acciones (Ataques simples, Ataques con aturdimiento, Bloqueo o acumulación de Ruina).
+- **Cartas de Reacción**: Cartas instantáneas que se activan al recibir un golpe fuera de tu turno (como *Parada* o *Lirio Negro*).
+- **Reliquias Antiguas**: Artefactos pasivos como la *Corona de Hierro*, el *Cáliz de Sangre*, la *Vela del Sepulcro* o el *Espejo de Obsidiana*.
+- **Pociones y Objetos**: Consumibles tácticos utilizables sin coste de energía (Poción de Vida, Tónico de Energía y Frasco de Fuego).
+- **Campamento y Bóveda de Cartas**: En los campamentos puedes descansar para sanar o retirar cartas de tu baraja. También puedes concluir la expedición de forma segura para guardar tus cartas ganadas en la Bóveda del Comandante (`profile.vault`).
 
-## Información (lore)
-Textos en `src/lore.js` (mundo, personajes, bestiario, zonas; en español e inglés). Las imágenes se reutilizan de retratos y fondos.
-Las criaturas del bestiario aparecen como "???" hasta que te enfrentas a ellas (se guarda en localStorage `seenEnemies`).
+---
 
-## Idiomas
-Español (es), English (en) y Euskara (eu). El selector está en la barra superior; si el navegador está en euskera o inglés se elige solo la primera vez.
-Para añadir un idioma: una entrada en `S` (src/i18n.js), su traducción de cartas (`EN`/`EU`), tutorial (`TUT_*`), objetos (`IT`), textos legales (`LEGAL`),
-y los campos de habilidades, arte, zonas y lore (`SK_EU`, `ART_EU`, `ZONE_EU`, `LORE_EU` al final de i18n.js). Si falta algo, se usa el español.
-Al añadir cartas nuevas, añade también su traducción en `EN` y `EU`.
+### 📖 Subpáginas del Roster
+- **Colección**: Explorador completo de cartas filtradas por comandante y cartas neutrales.
+- **Habilidades**: Árboles de talentos pasivos desbloqueables mediante victorias frente a los jefes de zona.
+- **Arte / Galería**: Museo visual para inspeccionar ilustraciones de comandantes, bestias, reliquias, eventos y fondos.
+- **Información (Crónica del Reino Quebrado)**: Enciclopedia de lore medieval con 4 grandes volúmenes (*El Reino Quebrado*, *Los 9 Comandantes*, *Bestiario*, *Cartografía del Páramo*), capitulares iluminadas, cronología histórica y citas litúrgicas.
+- **Cuenta**: Perfil del jugador con estadísticas de expedición, rango de la Orden y creador de avatar personalizado.
 
-## Avatar por capas (estilo Picrew)
-Sin archivos, el creador usa un avatar SVG integrado (piel, peinado, color, ojos, armadura, accesorio, aleatorio).
-Para el modo capas: crea `public/assets/avatar/manifest.json` y las piezas `public/assets/avatar/<capa>/<n>.png` (todas del mismo tamaño, transparentes; 0 = sin pieza):
+---
 
-    {"layers":[
-      {"id":"base","name":{"es":"Cuerpo","en":"Body","eu":"Gorputza"},"count":4,"required":true},
-      {"id":"hair","name":{"es":"Pelo","en":"Hair","eu":"Ilea"},"count":8},
-      {"id":"outfit","name":{"es":"Ropa","en":"Outfit","eu":"Arropa"},"count":6},
-      {"id":"acc","name":{"es":"Accesorio","en":"Accessory","eu":"Osagarria"},"count":5}]}
+### 🌐 Soporte Multilingüe (i18n)
+El juego cuenta con traducción dinámica completa entre 3 idiomas:
+- 🇪🇸 **Español**
+- 🇬🇧 **English**
+- 🇪🇺 **Euskara (Vasco)**
 
-El orden del array es el orden de las capas (la primera queda detrás). También puedes **importar una imagen** (por ejemplo exportada de Picrew). Ojo: respeta la licencia de cada creador de Picrew.
-El avatar se usa como retrato del comandante en combate (se puede desactivar en Cuenta), en la cabecera y en la cuenta.
+El idioma puede cambiarse al instante desde la barra superior de utilidades sin perder la sesión de juego.
 
-## Mecánicas añadidas
-- Morra es jugable: Recuerdos (se ganan con sus cartas y al recibir daño); habilidad "Recordar" (2) y, con 7, sobrevive una vez a un golpe mortal.
-- Habilidad activa por comandante (botón en el panel derecho): Vael "Sangrar la Corona" (2 Corrupción → +1 energía).
-- Estados: Herido (<50%), Ruina (acumulable), En postura (carta Juramento del Último Caballero), Corona Rota (Corrupción 10), Aturdido (el Espectro aturde: no puedes reaccionar).
-- Reliquias (`RELICS` en data.js): las da el miniboss. Pulsación larga en táctil = ver carta.
-- Los emojis se sustituyen por pictogramas SVG (`src/icons.js`); para añadir uno, define su dibujo en `P` y su emoji en `M`.
-- Pendiente: varios enemigos a la vez y PvP (requiere servidor).
+---
+
+### 🔊 Audio Procedural y BGM
+- **Efectos de sonido procedurales (`sfx.js`)**: Desarrollados con **Web Audio API** para garantizar sonido instantáneo sin necesidad de cargar archivos externos pesados (cortes de espada, colocación de cartas, defensa con escudo, victoria, derrota).
+- **Música ambiental**: Soporte para pistas de audio en bucle por zona y combate contra jefes, con control de silencio persistente en `localStorage`.
+
+---
+
+## 🚀 Instalación y Ejecución
+
+### Opción 1: Con Node.js y npm
+
+```bash
+# 1. Clonar el repositorio
+git clone https://github.com/Veynn-rvmpd/gravecrown.git
+cd gravecrown
+
+# 2. Instalar dependencias
+npm install
+
+# 3. Iniciar el servidor de desarrollo local
+npm run dev
+
+# 4. Generar la compilación para producción (carpeta dist/)
+npm run build
+```
+
+### Opción 2: Con Deno
+
+```bash
+# Iniciar servidor de desarrollo con Deno
+deno run -A npm:vite --port 3000 --host 127.0.0.1
+
+# Compilar para producción
+deno run -A npm:vite build
+```
+
+---
+
+## 📁 Estructura del Proyecto
+
+```
+gravecrown/
+├── index.html                   # Entrada principal de la aplicación
+├── style-tile.html              # Muestrario de diseño atómico y tokens visuales
+├── vite.config.js               # Configuración del empaquetador Vite
+├── package.json                 # Dependencias y scripts de ejecución
+├── push.bat                     # Utilidad rápida para sincronizar con GitHub
+├── public/
+│   └── assets/
+│       ├── backgrounds/         # Fondos de zonas (ashfields, crypt, citadel, menu)
+│       ├── commanders/          # Ilustraciones y retratos de los 9 héroes
+│       ├── enemies/             # Retratos de monstruos y jefes
+│       ├── events/              # Ilustraciones de eventos (mercader, descanso)
+│       ├── fonts/               # Tipografías góticas e históricas (Woff2)
+│       └── relics/              # Iconografía de reliquias
+└── src/
+    ├── main.js                  # Lógica del bucle de juego, estados y pantallas
+    ├── data.js                  # Base de datos de cartas, comandantes, enemigos y zonas
+    ├── i18n.js                  # Motor de localización (ES, EN, EU)
+    ├── lore.js                  # Crónicas del reino, bestiario e historia
+    ├── icons.js                 # Pictogramas vectoriales SVG
+    ├── avatar.js                # Generador de avatares heráldicos SVG
+    ├── supabase.js              # Adaptador para persistencia en nube (opcional)
+    ├── audio/
+    │   └── sfx.js               # Sintetizador de audio con Web Audio API
+    ├── styles/
+    │   ├── tokens.css           # Paleta de colores, sombras eclesiásticas y tipografías
+    │   ├── card.css             # Estilos de cartas, marcos 4:3 y sellos de cera
+    │   ├── components.css       # Botones heráldicos, cajas de eventos y barras de vida
+    │   └── metaphorPages.css    # Layout cinematográfico Metaphor y subpáginas
+    └── ui/
+        ├── card.js              # Renderizador interactivo de cartas
+        ├── metaphorCascade.js   # Menú principal cinético en cascada
+        ├── metaphorBattle.js    # Pantalla de batalla táctica
+        ├── metaphorProfile.js   # Interfaz de gestión de cuenta y avatar
+        └── ransom.js            # Generador de tipografía iluminada
+```
+
+---
+
+## 🛠️ Guía de Extensión y Modding
+
+### Añadir una Carta Nueva
+1. En `src/data.js`, añade la carta dentro del objeto `CARDS`:
+   ```javascript
+   "cuchilla-oscura": {
+     id: "cuchilla-oscura",
+     name: "Cuchilla Oscura",
+     cmd: "malakor",               // Id del comandante o neutral si se omite
+     type: "attack",               // "attack", "skill", "reaction", "curse"
+     cost: 1,                      // Coste de energía (PA)
+     effects: [{ a: "damage", n: 9 }, { a: "burn", n: 2 }],
+     description: "Inflige 9 de daño y aplica 2 de Quemado."
+   }
+   ```
+2. Añade las traducciones correspondientes en `src/i18n.js` dentro de `EN` y `EU`:
+   ```javascript
+   "cuchilla-oscura": ["Dark Blade", "Deal 9 damage and apply 2 Burn."]
+   ```
+3. Agrégala al mazo inicial del comandante o a la lista de recompensas `REWARD_POOL`.
+
+---
+
+## 📜 Licencia
+
+Proyecto de código abierto desarrollado bajo la licencia **MIT**.  
+Tipografías medievales y fuentes góticas utilizadas bajo licencia *SIL Open Font License (OFL)*.
