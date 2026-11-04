@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gravecrown · Metaphor Medieval Style Tile & Battle HUD</title>
+  <link rel="stylesheet" href="/src/styles/tokens.css">
+  <link rel="stylesheet" href="/src/styles/card.css">
+  <link rel="stylesheet" href="/src/styles/components.css">
+  <style>
+    /* Style Tile Presentation Framework */
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: var(--theme-bg-tint);
+      color: var(--bone);
+      font-family: var(--font-body);
+      font-size: var(--fs-body);
+      line-height: 1.5;
+      font-synthesis: none;
+      min-height: 100vh;
+      transition: background var(--dur-screen) ease;
+      overflow-x: hidden;
+    }
+
+    /* Fixed Test Controls Bar */
+    .testbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(10, 9, 9, 0.96);
+      border-bottom: 2px solid var(--blood);
+      padding: 10px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      align-items: center;
+      justify-content: space-between;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.8);
+    }
+
+    .testbar__title {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--bone);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      letter-spacing: 0.04em;
+    }
+
+    .title-crest-svg {
+      width: 20px;
+      height: 20px;
+      color: var(--blood);
+    }
+
+    .testbar__controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .testbar__group {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-numeric);
+      font-size: 0.85rem;
+      color: var(--ash);
+      letter-spacing: 0.05em;
+    }
+
+    .testbar select, .testbar input[type="range"] {
+      background: #181212;
+      color: var(--bone);
+      border: 1px solid #4D3335;
+      padding: 4px 8px;
+      font-family: inherit;
+      font-size: 0.9rem;
+      border-radius: 0;
+      cursor: pointer;
+    }
+
+    .testbar select:focus-visible {
+      outline: 2px solid var(--gold);
+    }
+
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 30px 24px 80px;
+    }
+
+    /* Section Boxes */
+    .tile-section {
+      margin-bottom: 58px;
+      position: relative;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      border-bottom: 2px solid #382828;
+      padding-bottom: 8px;
+      margin-bottom: 22px;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: 2.1rem;
+      font-weight: 700;
+      color: var(--bone);
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      letter-spacing: 0.02em;
+    }
+
+    .section-num {
+      font-family: var(--font-numeric);
+      font-size: 1rem;
+      color: #FFFFFF;
+      background: var(--blood);
+      padding: 2px 8px;
+      border: 1px solid var(--ink);
+    }
+
+    .section-desc {
+      font-family: var(--font-accent);
+      font-size: 1.1rem;
+      font-style: italic;
+      color: #9C8E84;
+      margin: 0;
+    }
+
+    /* 1. Palette Grid */
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .color-swatch {
+      background: #140E0E;
+      border: 2px solid #2E1F1F;
+      box-shadow: 4px 4px 0 var(--ink);
+      overflow: hidden;
+      transform: skewX(var(--skew-sm));
+      transition: transform var(--dur-micro) ease;
+    }
+
+    .color-swatch:hover {
+      transform: skewX(var(--skew-sm)) translateY(-4px);
+    }
+
+    .swatch-fill {
+      height: 90px;
+      position: relative;
+      border-bottom: 2px solid var(--ink);
+    }
+
+    .swatch-meta {
+      padding: 10px 12px;
+      transform: skewX(var(--skew-inv-sm));
+    }
+
+    .swatch-name {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.25rem;
+      margin: 0 0 2px;
+      color: var(--bone);
+    }
+
+    .swatch-token {
+      font-family: monospace;
+      font-size: 0.75rem;
+      color: var(--ash);
+      display: block;
+    }
+
+    .swatch-hex {
+      font-family: var(--font-numeric);
+      font-size: 0.9rem;
+      color: var(--gold);
+    }
+
+    /* 2. Fonts Grid */
+    .fonts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .font-card {
+      background: #161010;
+      border: 2px solid #332121;
+      padding: 20px;
+      box-shadow: 4px 4px 0 var(--ink);
+    }
+
+    .font-card__token {
+      font-family: monospace;
+      font-size: 0.8rem;
+      color: var(--blood);
+      background: rgba(217, 27, 36, 0.12);
+      padding: 2px 6px;
+      border: 1px solid var(--blood);
+      display: inline-block;
+      margin-bottom: 6px;
+    }
+
+    .font-card__name {
+      font-size: 1.55rem;
+      margin: 4px 0 10px;
+      color: var(--bone);
+      border-bottom: 1px dashed #4D3335;
+      padding-bottom: 6px;
+    }
+
+    .font-card__rules {
+      font-size: 0.82rem;
+      color: #B5A895;
+      margin-bottom: 14px;
+      line-height: 1.4;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 8px 10px;
+      border-left: 3px solid var(--gold);
+    }
+
+    .font-card__sample {
+      font-size: 1.35rem;
+      color: #FFFFFF;
+      margin-bottom: 10px;
+      line-height: 1.25;
+    }
+
+    .font-card__glyphs {
+      font-size: 0.95rem;
+      color: var(--gold);
+      letter-spacing: 0.12em;
+      line-height: 1.6;
+      word-break: break-all;
+    }
+
+    /* 4. Wedge Buttons Matrix */
+    .button-matrix {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      align-items: center;
+      background: #140E0E;
+      border: 2px solid #332121;
+      padding: 24px;
+      box-shadow: 6px 6px 0 var(--ink);
+    }
+
+    .button-col {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      align-items: flex-start;
+    }
+
+    .button-label {
+      font-family: var(--font-numeric);
+      font-size: 0.75rem;
+      color: var(--ash);
+      letter-spacing: 0.1em;
+    }
+
+    /* 5. Cards Showcase */
+    .card-size-ctrl {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #140E0E;
+      padding: 10px 16px;
+      margin-bottom: 20px;
+      border: 1px solid #3D2626;
+    }
+
+    .cards-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(var(--card-preview-w, 200px), 1fr));
+      gap: 24px;
+      align-items: start;
+    }
+
+    /* Modal Zoom */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 9, 9, 0.9);
+      backdrop-filter: blur(8px);
+      z-index: 10000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-backdrop.is-open {
+      display: flex;
+    }
+
+    .modal-box {
+      max-width: 420px;
+      width: 100%;
+      background: #161010;
+      border: 3px solid var(--blood);
+      box-shadow: 10px 10px 0 var(--ink), 0 0 30px rgba(217, 27, 36, 0.45);
+      padding: 24px;
+      position: relative;
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 10px;
+      right: 12px;
+      background: none;
+      border: none;
+      color: var(--bone);
+      font-family: var(--font-numeric);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    .shard-status {
+      font-family: var(--font-numeric);
+      font-size: 0.9rem;
+      letter-spacing: 0.08em;
+      color: var(--gold);
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body data-theme="combat">
+
+  <!-- Procedural Oil Canvas & Paint Grain Textures (Metaphor Medieval) -->
+  <div class="texture-canvas" aria-hidden="true"></div>
+  <div class="texture-grain" aria-hidden="true"></div>
+
+  <!-- Cinematic Shard Wipe Overlay -->
+  <div class="shard-wipe-overlay" id="shardOverlay" aria-hidden="true">
+    <div class="shard-wipe-layer shard-wipe-layer--ink"></div>
+    <div class="shard-wipe-layer shard-wipe-layer--blood"></div>
+    <div class="shard-wipe-layer shard-wipe-layer--bone"></div>
+  </div>
+
+  <!-- Sticky Testing Control Bar -->
+  <header class="testbar">
+    <div class="testbar__title">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" class="title-crest-svg"><path d="M14 4h6v6L11 19l-3-3z"/><path d="M6 15l-2 5 5-2"/></svg>
+      GRAVECROWN · METAPHOR MEDIEVAL STYLE TILE
+    </div>
+
+    <div class="testbar__controls">
+      <!-- Theme Switcher -->
+      <label class="testbar__group">
+        <span>PIGMENTO / TEMA:</span>
+        <select id="themeSelect" aria-label="Cambiar Tema Visual">
+          <option value="combat">Combate (Ceniza + Cinnabar)</option>
+          <option value="map">Mapa (Cardenillo / Verdigris)</option>
+          <option value="shop">Mercader (Oro + Pergamino)</option>
+          <option value="event">Evento / NPC (Malaquita)</option>
+          <option value="relic">Reliquia / Miniboss (Amatista)</option>
+          <option value="rest">Descanso (Ámbar Cálido)</option>
+        </select>
+      </label>
+
+      <!-- Language Switcher -->
+      <label class="testbar__group">
+        <span>IDIOMA:</span>
+        <select id="langSelect" aria-label="Cambiar Idioma de Prueba">
+          <option value="eu">Euskara (Textos largos - Peor caso)</option>
+          <option value="es">Español</option>
+          <option value="en">English</option>
+        </select>
+      </label>
+
+      <!-- Canvas Texture Intensity Slider -->
+      <label class="testbar__group">
+        <span>LIENZO:</span>
+        <input type="range" id="grainSlider" min="0" max="100" value="100" style="width: 80px;" title="Intensidad de Lienzo al Óleo">
+        <span id="grainVal">100%</span>
+      </label>
+
+      <!-- Simplified UI Toggle -->
+      <label class="testbar__group" style="cursor: pointer;">
+        <input type="checkbox" id="simplifiedToggle">
+        <span title="Modo UI Simplificada para accesibilidad">UI SIMPLIFICADA</span>
+      </label>
+
+      <!-- Reduced Motion Toggle -->
+      <label class="testbar__group" style="cursor: pointer;">
+        <input type="checkbox" id="motionToggle">
+        <span>REDUCE MOTION</span>
+      </label>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- 01. METAPHOR CASCADING KINETIC MENU WITH MINI-GIF SELECTOR -->
+    <section class="tile-section">
+      <div class="section-header">
+        <h2 class="section-title"><span class="section-num">01</span> Menú Cinético en Cascada con Selector Mini-GIF</h2>
+        <p class="section-desc">Pincelada al óleo animada frame-by-frame (mini-gif) · Tipografía serifa en arco · Líneas astronómicas</p>
+      </div>
+
+      <!-- Mount point for the Metaphor-inspired menu -->
+      <div id="metaphorMenuHost"></div>
+    </section>
+
+    <!-- 02. METAPHOR TACTICAL COMBAT / BATTLE HUD -->
+    <section class="tile-section">
+      <div class="section-header">
+        <h2 class="section-title"><span class="section-num">02</span> Sistema de Combate Táctico (Metaphor Battle HUD)</h2>
+        <p class="section-desc">Cristales de turno de acción (Press Turn) · Comandos tácticos con selector mini-gif · Debilidades/Resistencias · Barra de reacción</p>
+      </div>
+
+      <!-- Mount point for Metaphor Battle UI -->
+      <div id="metaphorBattleHost"></div>
+    </section>
+
+    <!-- 03. CARTAS COMPUESTAS (TAROT MEDIEVAL ILUMINADO) -->
+    <section class="tile-section">
+      <div class="section-header">
+        <h2 class="section-title"><span class="section-num">03</span> Cartas Compuestas (Tarot Medieval Iluminado)</h2>
+        <p class="section-desc">Proporción 5:7 · Ventana 4:3 · Grabado xilográfico · Sello de lacre · Textos largos en Euskera</p>
+      </div>
+
+      <div class="card-size-ctrl">
+        <label for="cardWidthSlider" style="font-family:var(--font-numeric); font-size:0.9rem;">
+          PROBAR ESCALADO RESPONSIVE:
+        </label>
+        <input type="range" id="cardWidthSlider" min="95" max="320" value="200" style="flex:1;">
+        <span id="cardWidthVal" style="font-family:var(--font-numeric); width: 60px;">200px</span>
+        <span style="font-size:0.85rem; color:var(--ash);">(&lt;110px oculta descripción y prioriza arte + coste + nombre)</span>
+      </div>
+
+      <div class="cards-row" id="cardsGrid">
+        <!-- Rendered by script -->
+      </div>
+    </section>
+
+    <!-- 04. METAPHOR COMMANDER PROFILE & HERALDRY (HERÁLDICA & PERFIL) -->
+    <section class="tile-section">
+      <div class="section-header">
+        <h2 class="section-title"><span class="section-num">04</span> Registro de Comandante & Heráldica (Perfil)</h2>
+        <p class="section-desc">Efigie de jugador · Estadísticas de expedición · Rango de blasón · Sincronización en la nube con Supabase</p>
+      </div>
+
+      <!-- Mount point for Metaphor Profile HUD -->
+      <div id="metaphorProfileHost"></div>
+    </section>
+
+    <!-- 05. PALETA OFICIAL (COTTON, CHERRY RED, MAROON, NOIR BLACK) -->
+    <section class="tile-section">
+      <div class="section-header">
+        <h2 class="section-title"><span class="section-num">05</span> Paleta Oficial Metaphor (Cotton, Cherry Red, Maroon, Noir Black)</h2>
+        <p class="section-desc">Referencia cromática estricta con degradados al óleo y chiaroscuro</p>
+      </div>
+
+      <div class="palette-grid">
+        <div class="color-swatch">
+          <div class="swatch-fill" style="background: #EDEBDD;"></div>
+          <div class="swatch-meta">
+            <h3 class="swatch-name" style="color:#1B1717; background:#EDEBDD; padding:0 4px;">Cotton</h3>
+            <span class="swatch-token">--cotton / --bone</span>
+            <span class="swatch-hex">#EDEBDD</span>
+          </div>
+        </div>
+
+        <div class="color-swatch">
+          <div class="swatch-fill" style="background: #810100;"></div>
+          <div class="swatch-meta">
+            <h3 class="swatch-name">Cherry Red</h3>
+            <span class="swatch-token">--cherry-red / --blood</span>
+            <span class="swatch-hex">#810100</span>
+          </div>
+        </div>
+
+        <div class="color-swatch">
+          <div class="swatch-fill" style="background: #630000;"></div>
+          <div class="swatch-meta">
+            <h3 class="swatch-name">Maroon</h3>
+            <span class="swatch-token">--maroon / --maroon-deep</span>
+            <span class="swatch-hex">#630000</span>
+          </div>
+        </div>
+
+        <div class="color-swatch">
+          <div class="swatch-fill" style="background: #1B1717;"></div>
+          <div class="swatch-meta">
+            <h3 class="swatch-name">Noir Black</h3>
+            <span class="swatch-token">--noir-black / --ink</span>
+            <span class="swatch-hex">#1B1717</span>
+          </div>
+        </div>
+
+        <div class="color-swatch">
+          <div class="swatch-fill" style="background: #D6A838;"></div>
+          <div class="swatch-meta">
+            <h3 class="swatch-name">Pan de Oro (Gold)</h3>
+            <span class="swatch-token">--gold</span>
+            <span class="swatch-hex">#D6A838</span>
+          </div>
+        </div>
+
+        <div class="color-swatch">
+          <div class="swatch-fill" style="background: #2C6B6F;"></div>
+          <div class="swatch-meta">
+            <h3 class="swatch-name">Cardenillo (Verdigris)</h3>
+            <span class="swatch-token">--verdigris</span>
+            <span class="swatch-hex">#2C6B6F</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 06. FUENTES GÓTICAS AUTOALOJADAS -->
+    <section class="tile-section">
+      <div class="section-header">
+        <h2 class="section-title"><span class="section-num">06</span> Tipografías Góticas Medievales (.woff2)</h2>
+        <p class="section-desc">Metal Gothic (Principal Display en Title Case), UnifrakturCook y Pirata One</p>
+      </div>
+
+      <div class="fonts-grid">
+        <div class="font-card">
+          <span class="font-card__token">--font-display (Gótica Principal)</span>
+          <h3 class="font-card__name" style="font-family: 'UnifrakturCook', serif; font-size:1.9rem;">UnifrakturCook</h3>
+          <div class="font-card__rules">
+            <strong>Gótica Medieval Auténtica:</strong> Trazos caligráficos afilados, capitulares ornamentadas y severo carácter medieval.
+          </div>
+          <div class="font-card__sample" style="font-family: 'UnifrakturCook', serif; font-size:1.7rem;">
+            Errautsen Erresuma eta Koroa Hautsia (a á A Á)
+          </div>
+          <div class="font-card__glyphs" style="font-family: 'UnifrakturCook', serif; font-size:1.3rem;">
+            a b c d e f g h i j k l m n o p q r s t u v w x y z<br>
+            A B C D E F G H I J K L M N O P Q R S T U V W X Y Z<br>
+            á é í ó ú ñ ¿ ¡ ü ç Á É Í Ó Ú Ñ Tx Tz Ilustrazioa
+          </div>
+        </div>
+
+        <div class="font-card">
+          <span class="font-card__token">--font-gothic-alt (Gótica Condensada)</span>
+          <h3 class="font-card__name" style="font-family: 'Pirata One', serif; font-size:1.7rem;">Pirata One</h3>
+          <div class="font-card__rules">
+            <strong>Gótica Angular de Cartel:</strong> Excelente para rótulos y tarjetas de facción.
+          </div>
+          <div class="font-card__sample" style="font-family: 'Pirata One', serif; font-size:1.5rem;">
+            CRONICAS DE CENIZA Y FUEGO (a á A Á)
+          </div>
+          <div class="font-card__glyphs" style="font-family: 'Pirata One', serif;">
+            a b c d e f g h i j k l m n o p q r s t u v w x y z<br>
+            A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
+          </div>
+        </div>
+
+        <div class="font-card">
+          <span class="font-card__token">--font-body</span>
+          <h3 class="font-card__name" style="font-family: var(--font-body);">IM Fell English</h3>
+          <div class="font-card__rules">
+            <strong>Reglas de uso:</strong> Regular + Cursiva. Prohibido bold sintético. Fondo vellum sólido para legibilidad AA.
+          </div>
+          <div class="font-card__sample" style="font-family: var(--font-body); font-style: italic;">
+            "Etsaiaren Babesak lehenengo xurgatzen du kaltea... (a á)"
+          </div>
+          <div class="font-card__glyphs" style="font-family: var(--font-body);">
+            1234567890 · á é í ó ú ñ ¿ ¡ ü ç Á É Í Ó Ú Ñ
+          </div>
+        </div>
+
+        <div class="font-card">
+          <span class="font-card__token">--font-numeric</span>
+          <h3 class="font-card__name" style="font-family: var(--font-numeric);">Anton</h3>
+          <div class="font-card__rules">
+            <strong>Reglas de uso:</strong> Exclusivo para cifras de combate (coste, daño, vida) y sellos de lacre.
+          </div>
+          <div class="font-card__sample" style="font-family: var(--font-numeric); font-size: 1.8rem; letter-spacing: 0.05em;">
+            99 HP · 3 COST · 14 DMG · READY (A)
+          </div>
+          <div class="font-card__glyphs" style="font-family: var(--font-numeric);">
+            0 1 2 3 4 5 6 7 8 9 · BLOCK 10 · PARADA! · CRITICAL
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 06. BOTONES EN CUÑA CINCELADOS -->
+    <section class="tile-section">
+      <div class="section-header">
+        <h2 class="section-title"><span class="section-num">06</span> Botones en Cuña Cincelados</h2>
+        <p class="section-desc">Cortes góticos angulares · Borde con hilo de oro · Sombra de impasto · Alto contraste</p>
+      </div>
+
+      <div class="button-matrix">
+        <div class="button-col">
+          <span class="button-label">IDLE / NORMAL</span>
+          <button class="btn-wedge" type="button">COMBATE <span class="btn-wedge__badge">01</span></button>
+        </div>
+
+        <div class="button-col">
+          <span class="button-label">HOVER (RESALTADO)</span>
+          <button class="btn-wedge" type="button" style="transform: translate(-3px, -3px); box-shadow: 8px 8px 0 var(--ink); border-color: var(--blood);">EXPEDICIÓN</button>
+        </div>
+
+        <div class="button-col">
+          <span class="button-label">FOCUS-VISIBLE (TECLADO)</span>
+          <button class="btn-wedge" type="button" style="outline: 3px solid var(--bone); outline-offset: 4px;">TABULACIÓN [TAB]</button>
+        </div>
+
+        <div class="button-col">
+          <span class="button-label">SELECTED / ACTIVO (BERMELLÓN)</span>
+          <button class="btn-wedge is-selected" type="button">SELECCIONADO</button>
+        </div>
+
+        <div class="button-col">
+          <span class="button-label">ACTION / PLAYABLE (AURA ORO)</span>
+          <button class="btn-wedge is-playable" type="button">JUGAR CARTA [ACTIVA]</button>
+        </div>
+
+        <div class="button-col">
+          <span class="button-label">DISABLED / BLOQUEADO</span>
+          <button class="btn-wedge" type="button" disabled>SIN ENERGÍA</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 07. TAJO DE ESPADA / SHARD WIPE -->
+    <section class="tile-section">
+      <div class="section-header">
+        <h2 class="section-title"><span class="section-num">07</span> Transición Tajo de Espada / Shard Wipe</h2>
+        <p class="section-desc">Corte diagonal cinemático con veladuras de tinta y bermellón · Sin fundidos genéricos</p>
+      </div>
+
+      <div style="background:#140E0E; border:2px solid #332121; padding:24px; box-shadow:6px 6px 0 var(--ink);">
+        <p style="margin: 0 0 16px; font-family: var(--font-body);">
+          Dispara la transición cinemática que corta la pantalla con capas de óleo y tinta:
+        </p>
+        <button class="btn-wedge" id="triggerShardBtn" type="button" style="border-color: var(--blood);">
+          DISPARAR TAJO CINEMÁTICO
+        </button>
+        <div class="shard-status" id="shardStatus">Listo para transición.</div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Card Enlarge Modal -->
+  <div class="modal-backdrop" id="cardModal" role="dialog" aria-modal="true" aria-label="Vista ampliada de carta">
+    <div class="modal-box">
+      <button class="modal-close-btn" id="modalClose" aria-label="Cerrar modal">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div id="modalCardTarget" style="display:flex; justify-content:center;"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { createMetaphorMenu } from "/src/ui/metaphorCascade.js";
+    import { createMetaphorBattleUI } from "/src/ui/metaphorBattle.js";
+    import { createMetaphorProfile } from "/src/ui/metaphorProfile.js";
+    import { renderCard } from "/src/ui/card.js";
+
+    // 1. Mount the Metaphor Cascading Menu
+    createMetaphorMenu("metaphorMenuHost");
+
+    // 2. Mount the Metaphor Tactical Combat / Battle HUD
+    createMetaphorBattleUI("metaphorBattleHost");
+
+    // 3. Mount the Metaphor Commander Profile & Heraldry
+    createMetaphorProfile("metaphorProfileHost");
+
+    // 4. Data cards: ALL 11 official Gravecrown cards in 3 languages
+    const CARDS_DATA = [
+      {
+        id: "ash-slash",
+        type: "attack",
+        cost: 1,
+        names: {
+          eu: "Errauts-ebakia",
+          es: "Tajo Carbonizado",
+          en: "Ash Slash"
+        },
+        descriptions: {
+          eu: "8 kalte egiten ditu. +4 kalte gehigarri etsaia Erreta badago. Etsaiaren Babesak lehenengo xurgatzen du.",
+          es: "Inflige 8 de daño. +4 si el enemigo está Quemado. El Bloqueo del enemigo lo absorbe primero.",
+          en: "Deal 8 damage. +4 if the enemy is Burning. Enemy Block absorbs it first."
+        },
+        dmgType: "fire"
+      },
+      {
+        id: "iron-guard",
+        type: "defense",
+        cost: 1,
+        names: {
+          eu: "Burdinazko zaintza",
+          es: "Guardia de Hierro",
+          en: "Iron Guard"
+        },
+        descriptions: {
+          eu: "10 Babes lortzen duzu: bizitza baino lehen xurgatzen du kaltea eta hurrengo txandan desagertzen da.",
+          es: "Obtienes 10 de Bloqueo: absorbe daño antes que tu vida y desaparece al empezar tu siguiente turno.",
+          en: "Gain 10 Block: absorbs damage before your health and fades at the start of your next turn."
+        }
+      },
+      {
+        id: "ash-step",
+        type: "technique",
+        cost: 1,
+        names: {
+          eu: "Errautsen arteko urratsa",
+          es: "Paso entre Cenizas",
+          en: "Step Through Ashes"
+        },
+        descriptions: {
+          eu: "6 Babes lortzen duzu eta karta 1 hartzen duzu mazotik. Errautsetan desagertu eta birkokatu.",
+          es: "Obtienes 6 de Bloqueo y robas 1 carta del mazo. Desvanécete entre el polvo para esquivar.",
+          en: "Gain 6 Block and draw 1 card from your deck. Fade through the ash and reposition."
+        }
+      },
+      {
+        id: "dying-fire",
+        type: "magic",
+        cost: 2,
+        names: {
+          eu: "Su hilzorian",
+          es: "Fuego Mortecino",
+          en: "Dying Fire"
+        },
+        descriptions: {
+          eu: "14 kalte egiten ditu, 2 txandatan Erreta ezartzen du. Ustelkeria 1 irabazten duzu.",
+          es: "Inflige 14 de daño, aplica Quemado 2 turnos. Ganas 1 de Corrupción en tu alma.",
+          en: "Deal 14 damage, apply Burning for 2 turns. Gain 1 Corruption."
+        },
+        exhaust: true,
+        dmgType: "fire"
+      },
+      {
+        id: "parry",
+        type: "reaction",
+        cost: 0,
+        names: {
+          eu: "Gelditzea",
+          es: "Parada",
+          en: "Parry"
+        },
+        descriptions: {
+          eu: "Etsaiaren eraso baten aurka bakarrik: kaltea 0ra murrizten du. 1,5 segundotan eginez gero, 5eko kontraerasoa.",
+          es: "Solo ante un ataque enemigo: reduce el daño a 0. Si lo haces en menos de 1,5 s, contraatacas con 5 de daño.",
+          en: "Only against an enemy attack: reduce damage to 0. If done within 1.5 s, counter for 5 damage."
+        }
+      },
+      {
+        id: "broken-crown",
+        type: "curse",
+        cost: 0,
+        names: {
+          eu: "Koroa hautsia",
+          es: "Corona Rota",
+          en: "Broken Crown"
+        },
+        descriptions: {
+          eu: "2 Ustelkeria irabazten dituzu eta 2 karta hartzen dituzu. 3 kalte jasotzen dituzu zuzenean eta 1 Hondamen.",
+          es: "Ganas 2 de Corrupción y robas 2 cartas. Recibes 3 de daño y 1 de Ruina.",
+          en: "Gain 2 Corruption and draw 2 cards. Take 3 damage and 1 Ruin."
+        }
+      },
+      {
+        id: "grave-guard",
+        type: "defense",
+        cost: 1,
+        names: {
+          eu: "Hilobi-zaintza",
+          es: "Guardia Funeraria",
+          en: "Grave Guard"
+        },
+        descriptions: {
+          eu: "9 Babes lortzen duzu. Oroitzapen 1 irabazten duzu hildakoen errautsetatik.",
+          es: "Obtienes 9 de Bloqueo. Ganas 1 Recuerdo de los caídos.",
+          en: "Gain 9 Block. Gain 1 Memory from the fallen."
+        }
+      },
+      {
+        id: "crypt-hand",
+        type: "attack",
+        cost: 1,
+        names: {
+          eu: "Kriptako eskua",
+          es: "Mano de la Cripta",
+          en: "Crypt Hand"
+        },
+        descriptions: {
+          eu: "8 kalte egiten ditu lurreko esku eskeletoekin. Oroitzapen 1 irabazten duzu.",
+          es: "Inflige 8 de daño invocando garras del osario. Ganas 1 Recuerdo.",
+          en: "Deal 8 damage summoning crypt claws. Gain 1 Memory."
+        }
+      },
+      {
+        id: "funerary-candle",
+        type: "technique",
+        cost: 1,
+        names: {
+          eu: "Hileta-kandela",
+          es: "Vela Funeraria",
+          en: "Funerary Candle"
+        },
+        descriptions: {
+          eu: "5 Babes lortzen duzu, karta 1 hartzen duzu eta Oroitzapen 1 irabazten duzu.",
+          es: "Obtienes 5 de Bloqueo, robas 1 carta y ganas 1 Recuerdo.",
+          en: "Gain 5 Block, draw 1 card, and gain 1 Memory."
+        }
+      },
+      {
+        id: "fading-memory",
+        type: "magic",
+        cost: 2,
+        names: {
+          eu: "Oroitzapen iheskorra",
+          es: "Recuerdo Fugaz",
+          en: "Fading Memory"
+        },
+        descriptions: {
+          eu: "12 kalte egiten ditu arima-kolpez eta 2 Oroitzapen irabazten dituzu.",
+          es: "Inflige 12 de daño con un golpe espectral y ganas 2 Recuerdos.",
+          en: "Deal 12 damage with a spectral strike and gain 2 Memories."
+        }
+      },
+      {
+        id: "last-oath",
+        type: "stance",
+        cost: 2,
+        names: {
+          eu: "Azken zaldunaren zina",
+          es: "Juramento del Último Caballero",
+          en: "Last Knight's Oath"
+        },
+        descriptions: {
+          eu: "3 txandatan, txanda bakoitzean lehenengo kaltea 5 murrizten duzu. Amaitzean, 3 bizitza galtzen dituzu.",
+          es: "Durante 3 turnos, la primera vez que recibes daño cada turno lo reduces en 5. Al terminar, pierdes 3 de vida.",
+          en: "For 3 turns, reduce the first damage taken each turn by 5. Upon expiration, lose 3 health."
+        }
+      }
+    ];
+
+    let currentLang = "eu";
+    let selectedDemoCardId = null;
+
+    // 4. Render Cards Row (Interactive: click to select/deselect, no card stays artificially stuck)
+    function renderCardsDemo() {
+      const grid = document.getElementById("cardsGrid");
+      grid.innerHTML = "";
+
+      CARDS_DATA.forEach((cardData, idx) => {
+        const isSelected = selectedDemoCardId === cardData.id;
+        const isPlayable = idx === 1; // Playable demo on second card
+        const isDisabled = idx === 3; // Disabled demo on fourth card
+        const isLocked = idx === 4;   // Locked demo on fifth card
+
+        const c = renderCard(cardData, {
+          name: cardData.names[currentLang],
+          desc: cardData.descriptions[currentLang],
+          selected: isSelected,
+          playable: isPlayable,
+          disabled: isDisabled,
+          locked: isLocked,
+          onEnlarge: openCardModal,
+          onClick: () => {
+            selectedDemoCardId = isSelected ? null : cardData.id;
+            renderCardsDemo();
+          }
+        });
+        grid.appendChild(c);
+      });
+
+      // 7: Unseen mystery card
+      const c7 = renderCard({ id: "unseen-card", type: "attack" }, {
+        unseen: true
+      });
+      grid.appendChild(c7);
+    }
+
+    // Modal Zoom
+    const modal = document.getElementById("cardModal");
+    const modalTarget = document.getElementById("modalCardTarget");
+    const modalClose = document.getElementById("modalClose");
+
+    function openCardModal(cardData) {
+      modalTarget.innerHTML = "";
+      const bigCard = renderCard(cardData, {
+        name: cardData.names ? cardData.names[currentLang] : cardData.name,
+        desc: cardData.descriptions ? cardData.descriptions[currentLang] : cardData.description
+      });
+      bigCard.style.width = "320px";
+      modalTarget.appendChild(bigCard);
+      modal.classList.add("is-open");
+    }
+
+    modalClose.addEventListener("click", () => modal.classList.remove("is-open"));
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) modal.classList.remove("is-open");
+    });
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") modal.classList.remove("is-open");
+    });
+
+    // 5. Interactive Theme Switcher
+    const themeSelect = document.getElementById("themeSelect");
+    themeSelect.addEventListener("change", (e) => {
+      document.body.dataset.theme = e.target.value;
+    });
+
+    // 6. Interactive Language Switcher
+    const langSelect = document.getElementById("langSelect");
+    langSelect.addEventListener("change", (e) => {
+      currentLang = e.target.value;
+      document.documentElement.lang = currentLang;
+      renderCardsDemo();
+    });
+
+    // 7. Card Width Slider (Responsive Container Queries)
+    const cardWidthSlider = document.getElementById("cardWidthSlider");
+    const cardWidthVal = document.getElementById("cardWidthVal");
+    cardWidthSlider.addEventListener("input", (e) => {
+      const val = e.target.value;
+      cardWidthVal.textContent = `${val}px`;
+      document.documentElement.style.setProperty("--card-preview-w", `${val}px`);
+    });
+
+    // 8. Canvas Texture Intensity Slider
+    const grainSlider = document.getElementById("grainSlider");
+    const grainVal = document.getElementById("grainVal");
+    grainSlider.addEventListener("input", (e) => {
+      const v = Number(e.target.value) / 100;
+      grainVal.textContent = `${e.target.value}%`;
+      document.documentElement.style.setProperty("--texture-intensity", v);
+    });
+
+    // 9. Simplified UI Toggle
+    const simplifiedToggle = document.getElementById("simplifiedToggle");
+    simplifiedToggle.addEventListener("change", (e) => {
+      document.body.classList.toggle("ui-simplified", e.target.checked);
+    });
+
+    // 10. Reduced Motion Toggle
+    const motionToggle = document.getElementById("motionToggle");
+    motionToggle.addEventListener("change", (e) => {
+      document.body.classList.toggle("simulated-reduced-motion", e.target.checked);
+    });
+
+    // 11. Shard Wipe Transition Trigger
+    const triggerShardBtn = document.getElementById("triggerShardBtn");
+    const shardOverlay = document.getElementById("shardOverlay");
+    const shardStatus = document.getElementById("shardStatus");
+
+    triggerShardBtn.addEventListener("click", () => {
+      shardStatus.textContent = "Ejecutando Tajo Cinemático...";
+      shardOverlay.classList.remove("is-active");
+      void shardOverlay.offsetWidth;
+      shardOverlay.classList.add("is-active");
+
+      setTimeout(() => {
+        shardOverlay.classList.remove("is-active");
+        shardStatus.textContent = "Tajo completado. Transición fluida.";
+      }, 550);
+    });
+
+    // Init
+    renderCardsDemo();
+  </script>
+</body>
+</html>

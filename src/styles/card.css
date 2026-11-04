@@ -1,0 +1,474 @@
+/* =====================================================================
+   COMPOSITE CARD STYLES
+   Medieval Grimdark Illuminated Tarot · Metaphor Aesthetic
+   ===================================================================== */
+
+.card-container {
+  container-type: inline-size;
+  display: inline-block;
+  width: 100%;
+  max-width: 280px;
+  min-width: 92px;
+  vertical-align: top;
+}
+
+.card {
+  --c-accent: var(--accent-attack);
+  --c-bg: #140E0E;
+  --c-surface: #1C1314;
+  --c-border: #4D2124;
+
+  position: relative;
+  width: 100%;
+  aspect-ratio: 5 / 7;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  text-align: left;
+  user-select: none;
+  transform-origin: center bottom;
+  transition: transform var(--dur-ui) var(--ease-sharp),
+              filter var(--dur-ui) ease,
+              box-shadow var(--dur-ui) ease;
+}
+
+.card:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 4px;
+}
+
+/* Card Types Color Tokens */
+.card--type-attack {
+  --c-accent: var(--accent-attack);
+  --c-border: #6E1A20;
+  --c-surface: #1E1012;
+}
+
+.card--type-defense {
+  --c-accent: var(--accent-defense);
+  --c-border: #2B4E63;
+  --c-surface: #101B24;
+}
+
+.card--type-technique,
+.card--type-stance {
+  --c-accent: var(--accent-technique);
+  --c-border: #6E4912;
+  --c-surface: #21170A;
+}
+
+.card--type-magic {
+  --c-accent: var(--accent-magic);
+  --c-border: #4F1870;
+  --c-surface: #180B24;
+}
+
+.card--type-reaction {
+  --c-accent: var(--accent-reaction);
+  --c-border: #1E542C;
+  --c-surface: #0C1E11;
+}
+
+.card--type-curse {
+  --c-accent: var(--accent-curse);
+  --c-border: #4D1223;
+  --c-surface: #1C0A10;
+}
+
+/* Card Body Frame */
+.card__inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: var(--c-surface);
+  border: 2px solid var(--c-border);
+  box-shadow: 4px 4px 0 var(--ink), 0 4px 12px rgba(0, 0, 0, 0.6);
+  clip-path: polygon(
+    0 12px,
+    12px 0,
+    calc(100% - 12px) 0,
+    100% 12px,
+    100% calc(100% - 14px),
+    calc(100% - 14px) 100%,
+    14px 100%,
+    0 calc(100% - 14px)
+  );
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-sizing: border-box;
+  padding: 3cqw;
+}
+
+/* Gilded Top Border Trim */
+.card__inner::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--c-accent), var(--gold), var(--c-accent));
+  z-index: 5;
+}
+
+/* Wax Cost Seal (Anton) - Refined medieval size */
+.card__seal {
+  position: absolute;
+  top: 5cqw;
+  left: 5cqw;
+  width: 17cqw;
+  height: 17cqw;
+  min-width: 20px;
+  min-height: 20px;
+  background: var(--c-accent);
+  color: var(--bone);
+  border: 1.5px solid #000;
+  box-shadow: 1.5px 1.5px 0 var(--ink);
+  clip-path: polygon(
+    50% 0%, 82% 14%, 100% 45%, 88% 82%,
+    52% 100%, 15% 85%, 0% 50%, 16% 15%
+  );
+  display: grid;
+  place-items: center;
+  z-index: 20;
+  transform: rotate(-6deg);
+}
+
+.card__cost {
+  font-family: var(--font-numeric);
+  font-size: 11cqw;
+  line-height: 1;
+  color: #FFFFFF;
+  text-shadow: 1px 1px 0 var(--ink);
+}
+
+/* Type Badge Icon - Reduced & Refined */
+.card__type-badge {
+  position: absolute;
+  top: 5cqw;
+  right: 5cqw;
+  width: 9.5cqw;
+  height: 9.5cqw;
+  min-width: 15px;
+  min-height: 15px;
+  background: var(--ink);
+  color: var(--c-accent);
+  border: 1px solid var(--c-border);
+  display: grid;
+  place-items: center;
+  z-index: 20;
+  padding: 1.2cqw;
+  box-shadow: 1.5px 1.5px 0 var(--c-border);
+  clip-path: polygon(0 0, 100% 0, 85% 100%, 15% 100%);
+}
+
+.card__type-badge svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Art Window: 4:3 ratio with woodcut background */
+.card__art-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: #080606;
+  border: 1px solid #332626;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card__art-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.card__art-fallback {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(circle at center, #241A19 0%, #0A0808 85%);
+}
+
+.card__sil {
+  width: 46%;
+  height: 46%;
+  opacity: 0.7;
+  filter: drop-shadow(1px 1px 0 var(--ink));
+}
+
+/* Name Banner */
+.card__name-banner {
+  margin-top: 2cqw;
+  background: var(--ink);
+  border-top: 2px solid var(--c-accent);
+  border-bottom: 1px solid var(--gold-dim);
+  padding: 1.8cqw 4cqw;
+  transform: skewX(var(--skew-sm));
+  box-shadow: 2px 2px 0 var(--c-border);
+}
+
+.card__name-text {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 8cqw;
+  line-height: 1.15;
+  color: var(--bone);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transform: skewX(var(--skew-inv-sm));
+}
+
+/* Tags (Exhaust / Damage Type) */
+.card__tags {
+  display: flex;
+  gap: 2cqw;
+  margin-top: 2cqw;
+  flex-wrap: wrap;
+}
+
+.card__tag {
+  font-family: var(--font-numeric);
+  font-size: 4.8cqw;
+  padding: 0.5cqw 2.5cqw;
+  background: var(--rust);
+  color: var(--bone);
+  border: 1px solid var(--ink);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.card__tag--exhaust {
+  background: #54171A;
+  color: #FFAEAE;
+  border-color: var(--blood);
+}
+
+.card__tag--fire {
+  background: #752A0E;
+  color: #FFC085;
+}
+
+.card__tag--magic {
+  background: #47146E;
+  color: #E2ADFF;
+}
+
+/* Description Box (Illuminated Antique Vellum) */
+.card__desc-box {
+  margin-top: 2cqw;
+  flex: 1;
+  background: #F0EAE1;
+  color: #0A0909;
+  border: 1px solid #2B211E;
+  box-shadow: inset 1px 1px 0 rgba(255,255,255,0.6), 2px 2px 0 var(--ink);
+  padding: 3cqw 4cqw;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.card__desc-text {
+  margin: 0;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 6.2cqw;
+  line-height: 1.35;
+  font-synthesis: none;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+}
+
+/* Quick Zoom Eye */
+.card__eye {
+  position: absolute;
+  bottom: 4cqw;
+  right: 4cqw;
+  width: 9.5cqw;
+  height: 9.5cqw;
+  min-width: 15px;
+  min-height: 15px;
+  background: rgba(10, 9, 9, 0.9);
+  color: var(--bone);
+  border: 1px solid var(--gold-dim);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  padding: 1.5px;
+  cursor: pointer;
+  z-index: 25;
+  box-shadow: 1px 1px 0 var(--ink);
+  transition: transform var(--dur-micro) ease, background var(--dur-micro) ease;
+}
+
+.card__eye:hover {
+  transform: scale(1.15);
+  background: var(--c-accent);
+  color: #fff;
+}
+
+/* Lock overlay */
+.card__lock-icon {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 9, 9, 0.75);
+  display: grid;
+  place-items: center;
+  font-size: 20cqw;
+  color: var(--gold);
+  z-index: 30;
+}
+
+/* =====================================================================
+   CARD STATES
+   ===================================================================== */
+
+/* Hover state */
+.card:hover:not(.card--disabled):not(.card--unseen) {
+  transform: translateY(-8px) scale(1.04);
+  z-index: 10;
+}
+
+.card:hover:not(.card--disabled):not(.card--unseen) .card__inner {
+  box-shadow: 6px 8px 0 var(--ink), 0 0 16px rgba(217, 27, 36, 0.45);
+  border-color: var(--c-accent);
+}
+
+/* Playable state */
+.card--playable .card__inner {
+  border-color: var(--gold);
+  box-shadow: 4px 4px 0 var(--ink), 0 0 12px rgba(214, 168, 56, 0.7);
+}
+
+.card--playable::after {
+  content: "PREPARADA";
+  position: absolute;
+  bottom: 2cqw;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--gold);
+  color: #0A0909;
+  font-family: var(--font-numeric);
+  font-size: 4.5cqw;
+  padding: 0.2cqw 2cqw;
+  letter-spacing: 0.1em;
+  border: 1px solid var(--ink);
+  box-shadow: 1px 1px 0 var(--ink);
+  pointer-events: none;
+  z-index: 22;
+}
+
+/* Selected state (Metaphor Heavy Accent) */
+.card--selected {
+  transform: translateY(-16px) scale(1.08) !important;
+  z-index: 40 !important;
+}
+
+.card--selected .card__inner {
+  border-color: var(--gold);
+  box-shadow: 6px 6px 0 var(--c-accent), 12px 12px 0 var(--ink) !important;
+}
+
+.card--selected .card__name-banner {
+  background: var(--bone);
+  border-color: var(--gold);
+}
+
+.card--selected .card__name-text {
+  color: var(--ink);
+}
+
+/* Disabled state */
+.card--disabled {
+  filter: grayscale(0.8) brightness(0.6);
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+.card--disabled .card__inner {
+  box-shadow: 2px 2px 0 var(--ink);
+  border-color: #382E2E;
+}
+
+/* Locked state */
+.card--locked {
+  filter: contrast(0.9);
+  cursor: not-allowed;
+}
+
+/* Unseen card state */
+.card--unseen {
+  cursor: default;
+}
+
+.card__inner--unseen {
+  background: repeating-linear-gradient(
+    -45deg,
+    #0F0C0C,
+    #0F0C0C 10px,
+    #1A1414 10px,
+    #1A1414 20px
+  );
+  border: 2px dashed var(--gold-dim);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4cqw;
+}
+
+.card__unseen-mark {
+  font-family: var(--font-display);
+  font-size: 32cqw;
+  color: var(--gold-dim);
+  line-height: 1;
+  text-shadow: 3px 3px 0 var(--ink);
+}
+
+.card__unseen-label {
+  font-family: var(--font-numeric);
+  font-size: 7cqw;
+  letter-spacing: 0.2em;
+  color: var(--bone);
+  background: #000;
+  padding: 1cqw 3cqw;
+  border: 1px solid var(--gold-dim);
+}
+
+/* =====================================================================
+   CONTAINER QUERIES FOR COMPACT CARDS (<110px)
+   ===================================================================== */
+@container (max-width: 110px) {
+  .card__desc-box {
+    display: none !important;
+  }
+  .card__tags {
+    display: none !important;
+  }
+  .card__art-frame {
+    flex: 1;
+    aspect-ratio: auto;
+  }
+  .card__name-banner {
+    margin-top: auto;
+    padding: 3cqw 4cqw;
+  }
+  .card__name-text {
+    font-size: 11cqw;
+  }
+  .card__eye {
+    width: 22cqw;
+    height: 22cqw;
+    font-size: 10cqw;
+  }
+}

@@ -1,0 +1,2208 @@
+/* =====================================================================
+   GRAVECROWN METAPHOR-INSPIRED MEDIEVAL PAINTERLY COMPONENTS
+   Oil Canvas · Kinetic Cascading Serifs · Mini-GIF Selector · Battle HUD
+   ===================================================================== */
+
+/* ---------------------------------------------------------------------
+   1. MINI-GIF ANIMATED SELECTORS & CURSORS
+   --------------------------------------------------------------------- */
+
+/* Metaphor Diffused Crimson Oil Wash ("Rojo Difuminado" - Sutil, Lento y con la Nueva Paleta) */
+.cascade-item--active::before {
+  content: "";
+  position: absolute;
+  top: -20%;
+  left: -32px;
+  right: -90px;
+  bottom: -28%;
+  background: 
+    radial-gradient(ellipse 75% 65% at 35% 50%, rgba(129, 1, 0, 0.76) 0%, rgba(99, 0, 0, 0.52) 48%, rgba(27, 23, 23, 0.15) 75%, transparent 100%),
+    linear-gradient(90deg, rgba(129, 1, 0, 0.65) 0%, rgba(99, 0, 0, 0.28) 75%, transparent 100%);
+  filter: blur(7px);
+  opacity: 0.82;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: 12px;
+  animation: diffusedBrushBoil 1250ms steps(4) infinite;
+}
+
+@keyframes diffusedBrushBoil {
+  0% {
+    filter: blur(7px);
+    transform: translate(0, 0) scale(1);
+  }
+  25% {
+    filter: blur(7.5px);
+    transform: translate(1px, -0.5px) scale(1.01);
+  }
+  50% {
+    filter: blur(6.5px);
+    transform: translate(-0.5px, 0.5px) scale(0.995);
+  }
+  75% {
+    filter: blur(7.2px);
+    transform: translate(0.5px, 1px) scale(1.005);
+  }
+  100% {
+    filter: blur(7px);
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+/* Mini-GIF JRPG Cursor Badge (Frame-by-frame 4-step twitch más pausado) */
+.mini-gif-cursor {
+  display: inline-block;
+  width: 26px;
+  height: 26px;
+  vertical-align: middle;
+  margin-right: 8px;
+  animation: miniGifCursor 850ms steps(4) infinite;
+  transform-origin: center;
+}
+
+@keyframes miniGifCursor {
+  0% { transform: scale(1) rotate(0deg); }
+  25% { transform: scale(1.18) rotate(-10deg); }
+  50% { transform: scale(0.92) rotate(6deg); }
+  75% { transform: scale(1.22) rotate(-6deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+
+/* ---------------------------------------------------------------------
+   2. METAPHOR CASCADING KINETIC MENU
+   --------------------------------------------------------------------- */
+.metaphor-showcase {
+  position: relative;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  aspect-ratio: 16 / 9;
+  min-height: 520px;
+  max-height: 640px;
+  background: linear-gradient(135deg, rgba(14, 19, 24, 0.88) 0%, rgba(8, 10, 13, 0.82) 45%, rgba(6, 8, 10, 0.94) 100%),
+              url('/assets/backgrounds/menu.webp') center/cover no-repeat,
+              radial-gradient(circle at 75% 30%, #1A2830 0%, #0E1318 45%, #08090B 100%);
+  border: 2px solid #2F3D45;
+  box-shadow: 10px 10px 0 var(--ink), 0 0 30px rgba(0,0,0,0.8);
+  overflow: hidden;
+  padding: clamp(24px, 3.5cqw, 44px);
+  display: flex;
+  align-items: center;
+  container-type: inline-size;
+  container-name: metaphorFrame;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .metaphor-showcase {
+    aspect-ratio: auto;
+    min-height: 580px;
+    padding: 20px 14px;
+  }
+}
+
+.metaphor-showcase::before {
+  content: "";
+  position: absolute;
+  top: -10%;
+  left: -10%;
+  width: 55%;
+  height: 90%;
+  background: radial-gradient(ellipse at 40% 40%, rgba(44, 107, 111, 0.45) 0%, rgba(217, 27, 36, 0.15) 60%, transparent 80%);
+  filter: blur(20px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Fine Hairline Astronomical / Cartographic Engraving Lines */
+.engraving-lines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.35;
+}
+
+.engraving-circle-1 {
+  position: absolute;
+  top: -100px;
+  right: 15%;
+  width: 520px;
+  height: 520px;
+  border: 1px solid var(--bone);
+  border-radius: 50%;
+}
+
+.engraving-circle-2 {
+  position: absolute;
+  top: -60px;
+  right: 18%;
+  width: 440px;
+  height: 440px;
+  border: 1px dashed rgba(240, 234, 225, 0.6);
+  border-radius: 50%;
+}
+
+.engraving-horiz-line {
+  position: absolute;
+  bottom: 110px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 5%, rgba(240, 234, 225, 0.4) 30%, rgba(240, 234, 225, 0.8) 70%, transparent 95%);
+}
+
+.engraving-coords {
+  position: absolute;
+  bottom: 118px;
+  right: 40px;
+  font-family: var(--font-numeric);
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  color: rgba(240, 234, 225, 0.6);
+}
+
+/* Cascading Typography Column */
+.metaphor-cascade {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-width: 580px;
+  transform: rotate(-3deg);
+  transform-origin: left center;
+}
+
+.cascade-item {
+  position: relative;
+  display: inline-block;
+  font-family: var(--font-display);
+  font-weight: 400;
+  color: var(--bone);
+  text-decoration: none;
+  text-transform: none; /* Title Case for ultimate blackletter legibility */
+  line-height: 1.02;
+  letter-spacing: 0.025em;
+  cursor: pointer;
+  transform-origin: left center;
+  transition: transform var(--dur-micro) var(--ease-sharp),
+              color var(--dur-micro) ease;
+  user-select: none;
+}
+
+.cascade-item:hover {
+  transform: translateX(10px) scale(1.03);
+  color: #FFFFFF;
+}
+
+.cascade-item--sm {
+  font-size: clamp(1.8rem, 2.8cqw, 2.5rem);
+  color: rgba(240, 234, 225, 0.78);
+  transform: skewX(-4deg);
+}
+
+.cascade-item--md {
+  font-size: clamp(2.3rem, 3.8cqw, 3.4rem);
+  color: rgba(240, 234, 225, 0.95);
+  transform: skewX(-6deg);
+}
+
+.cascade-item--lg {
+  font-size: clamp(2.9rem, 4.8cqw, 4.3rem);
+  color: #FFFFFF;
+  transform: skewX(-8deg);
+}
+
+.cascade-item--active {
+  position: relative;
+  z-index: 15;
+  color: #FFFFFF !important;
+  transform: translateX(12px) scale(1.05) skewX(-8deg) !important;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
+}
+
+.cascade-item__active-wrap,
+.cascade-item__sub,
+.cascade-item__enter-btn {
+  display: none !important;
+}
+
+/* Character Artwork in Background / Right Stage */
+.metaphor-artwork-stage {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 58%;
+  height: 100%;
+  z-index: 5;
+  cursor: pointer;
+  overflow: hidden;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  transition: filter 220ms ease;
+}
+
+.metaphor-artwork-stage:hover {
+  filter: brightness(1.08);
+}
+
+.metaphor-artwork-img {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  height: 100%;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  object-position: bottom right;
+  /* Diffused painterly mask fading softly into left and bottom canvas */
+  mask-image: 
+    linear-gradient(to left, rgba(0,0,0,1) 40%, rgba(0,0,0,0.5) 70%, transparent 100%),
+    linear-gradient(to top, rgba(0,0,0,1) 65%, transparent 100%);
+  -webkit-mask-image: 
+    linear-gradient(to left, rgba(0,0,0,1) 40%, rgba(0,0,0,0.5) 70%, transparent 100%),
+    linear-gradient(to top, rgba(0,0,0,1) 65%, transparent 100%);
+  transition: transform 300ms ease, opacity 240ms ease;
+}
+
+.metaphor-artwork-stage:hover .metaphor-artwork-img {
+  transform: scale(1.02);
+}
+
+/* Fallback Procedural Vector Silhouette when image file isn't uploaded yet */
+.metaphor-artwork-fallback {
+  position: absolute;
+  right: 4%;
+  bottom: 0;
+  height: 94%;
+  width: auto;
+  max-width: 48%;
+  object-fit: contain;
+  object-position: bottom right;
+  pointer-events: none;
+  filter: drop-shadow(-8px 4px 16px rgba(0, 0, 0, 0.9));
+  transition: transform 300ms ease;
+}
+
+.metaphor-artwork-stage:hover .metaphor-artwork-fallback {
+  transform: scale(1.02);
+}
+
+/* Interactive Badge: Clic para cambiar comandante */
+.metaphor-artwork-badge {
+  position: absolute;
+  top: 22px;
+  right: 120px;
+  z-index: 12;
+  background: rgba(14, 19, 24, 0.9);
+  border: 1px solid var(--gold);
+  box-shadow: 3px 3px 0 var(--ink);
+  padding: 4px 12px;
+  font-family: var(--font-numeric);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  color: var(--bone);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 150ms ease, border-color 150ms ease, transform 150ms ease;
+}
+
+.metaphor-artwork-badge:hover {
+  background: var(--blood);
+  border-color: #FFF;
+  transform: translateY(-2px);
+}
+
+.metaphor-artwork-badge svg {
+  width: 14px;
+  height: 14px;
+  color: var(--gold);
+}
+
+.metaphor-artwork-badge:hover svg {
+  color: #FFF;
+}
+
+/* Commander Details Box */
+.metaphor-commander-details {
+  position: absolute;
+  top: 60px;
+  right: 32px;
+  z-index: 10;
+  text-align: right;
+  pointer-events: none;
+  max-width: 280px;
+}
+
+.metaphor-commander-name {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  color: var(--bone);
+  line-height: 1.1;
+  text-shadow: 2px 2px 0 var(--ink);
+}
+
+.metaphor-commander-role {
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-size: 0.85rem;
+  color: var(--gold);
+  margin-top: 2px;
+}
+
+/* Metaphor Commander Switcher Drawer */
+.commander-switcher-drawer {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 9, 9, 0.94);
+  backdrop-filter: blur(10px);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 32px;
+  border: 2px solid var(--gold);
+  animation: drawerFadeIn 200ms ease-out;
+}
+
+@keyframes drawerFadeIn {
+  from { opacity: 0; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.commander-switcher-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(214, 168, 56, 0.3);
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+}
+
+.commander-switcher-title {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: var(--gold);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.commander-switcher-close {
+  background: #241416;
+  border: 1px solid var(--blood);
+  color: #FFF;
+  padding: 4px 12px;
+  font-family: var(--font-numeric);
+  font-size: 0.8rem;
+  cursor: pointer;
+  letter-spacing: 0.1em;
+}
+
+.commander-switcher-close:hover {
+  background: var(--blood);
+}
+
+.commander-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  flex: 1;
+}
+
+@media (max-width: 860px) {
+  .commander-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.commander-card-choice {
+  background: #12161A;
+  border: 1px solid #2B3D48;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+  position: relative;
+  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+.commander-card-choice:hover {
+  background: #18222A;
+  border-color: var(--gold);
+  transform: translateY(-4px);
+}
+
+.commander-card-choice.active {
+  border: 2px solid var(--blood);
+  background: #1C1214;
+  box-shadow: 0 0 16px rgba(217, 27, 36, 0.4);
+}
+
+.commander-card-name {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  color: var(--bone);
+  margin-bottom: 4px;
+}
+
+.commander-card-title {
+  font-family: var(--font-numeric);
+  font-size: 0.72rem;
+  color: var(--gold);
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+}
+
+.commander-card-lore {
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-size: 0.8rem;
+  color: #B5ABA0;
+  line-height: 1.3;
+}
+
+.commander-card-active-tag {
+  align-self: flex-start;
+  margin-top: 8px;
+  padding: 2px 6px;
+  background: var(--blood);
+  color: #FFF;
+  font-family: var(--font-numeric);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+}
+
+.commander-upload-strip {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(240, 234, 225, 0.15);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.commander-upload-note {
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-size: 0.85rem;
+  color: #8C7D73;
+}
+
+.commander-upload-label {
+  background: #1F2830;
+  border: 1px solid var(--gold);
+  color: var(--bone);
+  padding: 6px 14px;
+  font-family: var(--font-numeric);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 150ms ease;
+}
+
+.commander-upload-label:hover {
+  background: var(--gold);
+  color: var(--ink);
+}
+
+.metaphor-emblem {
+  position: absolute;
+  top: 24px;
+  right: 28px;
+  width: 80px;
+  height: 80px;
+  z-index: 8;
+  display: grid;
+  place-items: center;
+  color: rgba(240, 234, 225, 0.9);
+}
+
+.metaphor-emblem svg {
+  width: 100%;
+  height: 100%;
+}
+
+.metaphor-emblem__txt {
+  position: absolute;
+  bottom: -18px;
+  right: 0;
+  font-family: var(--font-numeric);
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  color: var(--gold);
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+
+.metaphor-hud-box {
+  position: absolute;
+  bottom: 24px;
+  right: 36px;
+  background: rgba(14, 19, 24, 0.85);
+  border-top: 1px solid rgba(240, 234, 225, 0.5);
+  border-bottom: 2px solid var(--gold);
+  padding: 8px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 210px;
+  box-shadow: 4px 4px 0 var(--ink);
+  z-index: 10;
+  backdrop-filter: blur(4px);
+}
+
+.metaphor-hud-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+}
+
+.metaphor-hud-label {
+  font-family: var(--font-numeric);
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  color: var(--ash);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.metaphor-hud-val {
+  font-family: var(--font-accent);
+  font-weight: 600;
+  font-size: 1.4rem;
+  color: var(--bone);
+  letter-spacing: 0.05em;
+}
+
+/* ---------------------------------------------------------------------
+   3. TURN-BASED CARD BATTLER ARENA (HERO LEFT, ENEMY RIGHT, CARDS BOTTOM)
+   --------------------------------------------------------------------- */
+.battle-stage {
+  position: relative;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  min-height: 600px;
+  background: radial-gradient(circle at 50% 30%, #1A0D0F 0%, #100809 55%, #080505 100%);
+  border: 2px solid #4D2124;
+  box-shadow: 10px 10px 0 var(--ink), 0 0 40px rgba(0,0,0,0.9);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  container-type: inline-size;
+}
+
+/* Battlefield Upper Arena */
+.battlefield-arena {
+  position: relative;
+  min-height: 380px;
+  padding: 30px 40px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  z-index: 10;
+}
+
+.arena-floor {
+  position: absolute;
+  bottom: 0;
+  left: -20%;
+  right: -20%;
+  height: 55%;
+  background: linear-gradient(180deg, transparent 0%, rgba(20, 14, 14, 0.7) 30%, rgba(10, 8, 8, 0.95) 100%);
+  transform: perspective(300px) rotateX(25deg);
+  border-top: 1px solid rgba(217, 27, 36, 0.2);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Fighter Units (Hero Left, Enemy Right) */
+.unit-fighter {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.unit-hero {
+  align-items: flex-start;
+}
+
+.unit-enemy {
+  align-items: flex-end;
+}
+
+/* Stats Header */
+.fighter-stats {
+  background: rgba(14, 10, 10, 0.92);
+  border-left: 4px solid var(--gold);
+  border-bottom: 2px solid var(--ink);
+  padding: 8px 14px;
+  min-width: 200px;
+  box-shadow: 3px 3px 0 var(--ink);
+}
+
+.enemy-stats {
+  border-left: none;
+  border-right: 4px solid var(--blood);
+  text-align: right;
+}
+
+.fighter-title-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: baseline;
+}
+
+.fighter-name {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--bone);
+}
+
+.fighter-tag {
+  font-family: var(--font-numeric);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: var(--gold);
+}
+
+.fighter-hp-track {
+  height: 14px;
+  background: #080606;
+  border: 1px solid #382424;
+  margin: 6px 0;
+  overflow: hidden;
+}
+
+.fighter-hp-fill {
+  height: 100%;
+  transition: width 240ms ease;
+  display: flex;
+  align-items: center;
+  padding: 0 6px;
+}
+
+.hero-hp-color {
+  background: linear-gradient(90deg, #9E741B, var(--gold));
+}
+
+.enemy-hp-color {
+  background: linear-gradient(90deg, #8A151C, var(--blood));
+}
+
+.fighter-hp-text {
+  font-family: var(--font-numeric);
+  font-size: 0.7rem;
+  color: #FFF;
+  text-shadow: 1px 1px 0 #000;
+}
+
+.hero-shields-row,
+.weakness-strip {
+  display: flex;
+  gap: 6px;
+  font-family: var(--font-numeric);
+  font-size: 0.75rem;
+}
+
+.block-badge {
+  background: #243545;
+  color: #C8D8E6;
+  border: 1px solid #4A6E8C;
+  padding: 2px 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.block-badge svg {
+  width: 12px;
+  height: 12px;
+}
+
+.w-chip {
+  padding: 1px 5px;
+  background: #141010;
+  border: 1px solid var(--ash);
+  color: var(--ash);
+}
+
+.w-weak {
+  border-color: var(--blood);
+  color: #FF5E68;
+  font-weight: bold;
+}
+
+.w-resist {
+  border-color: #2C6B6F;
+  color: #6EB9E8;
+}
+
+/* Enemy Intent Badge above head (as in reference Image 1) */
+.enemy-intent-badge {
+  background: #3D1215;
+  color: #FFF;
+  border: 2px solid var(--blood);
+  box-shadow: 3px 3px 0 var(--ink);
+  padding: 4px 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transform: skewX(-6deg);
+  margin-bottom: 4px;
+  animation: intentBob 1.6s ease-in-out infinite alternate;
+}
+
+@keyframes intentBob {
+  0% { transform: skewX(-6deg) translateY(0); }
+  100% { transform: skewX(-6deg) translateY(-5px); }
+}
+
+.intent-ico {
+  display: flex;
+  align-items: center;
+  color: #FF3B47;
+}
+
+.intent-ico svg {
+  width: 16px;
+  height: 16px;
+}
+
+.intent-dmg {
+  font-family: var(--font-numeric);
+  font-size: 1.15rem;
+  line-height: 1;
+  color: #FFF;
+}
+
+.intent-label {
+  font-family: var(--font-numeric);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: var(--gold);
+}
+
+/* Fighter Sprites Box */
+.fighter-sprite-box {
+  position: relative;
+  width: 170px;
+  height: 230px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fighter-sprite {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 6px 14px rgba(0,0,0,0.8));
+  animation: spriteBreathe 3.5s ease-in-out infinite;
+}
+
+@keyframes spriteBreathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.025) translateY(-2px); }
+}
+
+/* Sprite Lunge Attack Animation */
+.hero-lunge-attack {
+  animation: heroLunge 320ms cubic-bezier(0.1, 0.9, 0.2, 1.2) forwards;
+}
+
+@keyframes heroLunge {
+  0% { transform: translateX(0) scale(1); }
+  45% { transform: translateX(140px) scale(1.15); filter: brightness(1.4); }
+  100% { transform: translateX(0) scale(1); }
+}
+
+.enemy-lunge-attack {
+  animation: enemyLunge 320ms cubic-bezier(0.1, 0.9, 0.2, 1.2) forwards;
+}
+
+@keyframes enemyLunge {
+  0% { transform: translateX(0) scale(1); }
+  45% { transform: translateX(-140px) scale(1.15); filter: brightness(1.4); }
+  100% { transform: translateX(0) scale(1); }
+}
+
+/* Impact Hit Shake & Flash */
+.enemy-impact-hit,
+.hero-impact-hit {
+  animation: impactShake 280ms ease-out forwards;
+}
+
+@keyframes impactShake {
+  0% { transform: translateX(0); filter: brightness(2.5) contrast(1.5); }
+  25% { transform: translateX(14px) rotate(3deg); }
+  50% { transform: translateX(-10px) rotate(-3deg); }
+  75% { transform: translateX(6px); }
+  100% { transform: translateX(0); filter: brightness(1); }
+}
+
+/* Floating Combat Numbers */
+.floating-combat-text {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  font-family: var(--font-numeric);
+  font-size: 2rem;
+  letter-spacing: 0.05em;
+  pointer-events: none;
+  z-index: 100;
+  text-shadow: 2px 2px 0 #000, 0 0 10px rgba(0,0,0,0.8);
+  animation: floatCombatText 900ms ease-out forwards;
+}
+
+.text-crit {
+  color: #FF2B36;
+  font-size: 2.5rem;
+}
+
+.text-dmg {
+  color: #FF9E4A;
+}
+
+.text-block {
+  color: #6EB9E8;
+  font-size: 1.5rem;
+}
+
+.text-parry {
+  color: var(--gold);
+  font-size: 1.6rem;
+}
+
+@keyframes floatCombatText {
+  0% { transform: translate(-50%, 0) scale(0.6); opacity: 0; }
+  20% { transform: translate(-50%, -20px) scale(1.2); opacity: 1; }
+  100% { transform: translate(-50%, -70px) scale(0.95); opacity: 0; }
+}
+
+/* Battle Bottom Dock (Cards in Hand & Action Points - Reference Image 1) */
+.battle-hand-dock {
+  position: relative;
+  z-index: 20;
+  background: linear-gradient(0deg, #0A0808 80%, rgba(10, 8, 8, 0.4) 100%);
+  border-top: 2px solid #382424;
+  padding: 14px 24px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+/* Action Points Energy Orb */
+.action-points-cluster {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.ap-orb-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.ap-orb {
+  width: 62px;
+  height: 62px;
+  background: radial-gradient(circle at 35% 35%, #D6A838 0%, #85331E 65%, #0A0909 100%);
+  border: 2px solid var(--gold);
+  border-radius: 50%;
+  box-shadow: 0 0 14px rgba(214, 168, 56, 0.6), 3px 3px 0 var(--ink);
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  color: #FFF;
+}
+
+.ap-num {
+  font-family: var(--font-numeric);
+  font-size: 1.8rem;
+  line-height: 60px;
+}
+
+.ap-max {
+  font-family: var(--font-numeric);
+  font-size: 0.9rem;
+  color: var(--bone);
+}
+
+.ap-label {
+  font-family: var(--font-numeric);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  color: var(--gold);
+}
+
+.battle-actions-col {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Cards Hand Row (Compact cards fanned out) */
+.cards-hand-row {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: flex-end;
+  flex: 1;
+  max-width: 720px;
+}
+
+.cards-hand-row .card-container {
+  max-width: 140px;
+  min-width: 105px;
+  transition: transform var(--dur-micro) ease;
+}
+
+.cards-hand-row .card-container:hover {
+  transform: translateY(-20px) scale(1.08);
+  z-index: 25;
+}
+
+.end-turn-cluster {
+  display: flex;
+  align-items: flex-end;
+}
+
+.battle-bg-effects {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.battle-sky-slash {
+  position: absolute;
+  top: 10%;
+  left: -20%;
+  right: -20%;
+  height: 120px;
+  background: linear-gradient(135deg, transparent 20%, rgba(217, 27, 36, 0.2) 50%, transparent 80%);
+  transform: rotate(-12deg);
+}
+
+.battle-mist-wash {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40%;
+  background: linear-gradient(0deg, rgba(8, 6, 6, 0.95) 0%, transparent 100%);
+}
+
+/* Action Crystals Bar (Press Turn) */
+.turn-crystals-bar {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  background: rgba(10, 9, 9, 0.85);
+  border-bottom: 2px solid var(--gold);
+  padding: 8px 24px;
+  width: fit-content;
+  margin: 0 auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+  clip-path: polygon(10px 0, calc(100% - 10px) 0, 100% 100%, 0 100%);
+}
+
+.turn-label {
+  font-family: var(--font-numeric);
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
+  color: var(--gold);
+}
+
+.crystals-cluster {
+  display: flex;
+  gap: 10px;
+}
+
+.action-crystal {
+  position: relative;
+  width: 22px;
+  height: 32px;
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  background: #2B2120;
+  border: 1px solid #4D3535;
+  display: grid;
+  place-items: center;
+}
+
+.action-crystal.is-lit {
+  background: linear-gradient(180deg, #FFF 0%, var(--gold) 40%, var(--blood) 100%);
+  box-shadow: 0 0 12px rgba(214, 168, 56, 0.8);
+  animation: crystalFlicker 400ms steps(3) infinite;
+}
+
+@keyframes crystalFlicker {
+  0% { filter: brightness(1) drop-shadow(0 0 6px var(--gold)); }
+  50% { filter: brightness(1.2) drop-shadow(0 0 14px #FFF); }
+  100% { filter: brightness(1) drop-shadow(0 0 6px var(--gold)); }
+}
+
+.action-crystal.is-spent {
+  opacity: 0.3;
+  filter: grayscale(1);
+}
+
+/* Enemy Card in Battle */
+.battle-enemy-card {
+  position: relative;
+  z-index: 10;
+  max-width: 580px;
+  background: rgba(18, 11, 12, 0.9);
+  border-left: 6px solid var(--blood);
+  border-top: 1px solid #4A2224;
+  border-bottom: 2px solid var(--ink);
+  padding: 16px 20px;
+  box-shadow: 6px 6px 0 var(--ink);
+}
+
+.enemy-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.enemy-badge {
+  font-family: var(--font-numeric);
+  font-size: 0.75rem;
+  color: var(--ash);
+  letter-spacing: 0.15em;
+}
+
+.enemy-name {
+  margin: 2px 0 6px;
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--bone);
+  line-height: 1;
+}
+
+.enemy-intent-cartouche {
+  background: #3D1215;
+  color: #FFAEAE;
+  border: 1px solid var(--blood);
+  padding: 4px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-numeric);
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  box-shadow: 2px 2px 0 var(--ink);
+  transform: skewX(-4deg);
+}
+
+.enemy-intent-cartouche .intent-icon {
+  color: #FF3B47;
+  font-size: 1.1rem;
+}
+
+/* HP Track */
+.enemy-hp-track {
+  height: 22px;
+  background: #080606;
+  border: 1px solid #4D2124;
+  box-shadow: inset 1px 1px 0 rgba(0,0,0,0.8);
+  margin: 10px 0;
+  overflow: hidden;
+  clip-path: polygon(0 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
+}
+
+.enemy-hp-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #8A151C, var(--blood));
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  transition: width 300ms ease;
+}
+
+.enemy-hp-text {
+  font-family: var(--font-numeric);
+  font-size: 0.8rem;
+  color: #FFFFFF;
+  letter-spacing: 0.05em;
+  text-shadow: 1px 1px 0 #000;
+}
+
+/* Weakness Row */
+.weakness-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.weak-chip {
+  font-family: var(--font-numeric);
+  font-size: 0.72rem;
+  padding: 2px 8px;
+  background: #141010;
+  border: 1px solid var(--ash);
+  color: var(--ash);
+  letter-spacing: 0.05em;
+}
+
+.weak-chip.is-weak {
+  background: #4A1215;
+  color: #FF4D58;
+  border-color: var(--blood);
+  font-weight: bold;
+}
+
+.weak-chip.is-resist {
+  background: #122836;
+  color: #6EB9E8;
+  border-color: #2C6B6F;
+}
+
+.weak-chip.is-block {
+  background: #242220;
+  color: #9E948A;
+  border-color: #5E5852;
+}
+
+/* Tactical Bottom Area */
+.battle-tactical-bottom {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+/* Commands Grid / Wheel */
+.battle-commands-menu {
+  background: rgba(14, 10, 10, 0.95);
+  border: 2px solid #4D2124;
+  box-shadow: 6px 6px 0 var(--ink);
+  padding: 16px;
+  max-width: 620px;
+  flex: 1;
+}
+
+.commands-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-bottom: 1px solid #332021;
+  padding-bottom: 6px;
+  margin-bottom: 12px;
+}
+
+.commands-header-title {
+  font-family: var(--font-numeric);
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
+  color: var(--gold);
+}
+
+.commands-header-tag {
+  font-family: var(--font-numeric);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: var(--ash);
+}
+
+.commands-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 10px;
+}
+
+.battle-cmd-btn {
+  position: relative;
+  background: #1C1213;
+  color: var(--bone);
+  border: 1px solid #3D2224;
+  padding: 10px 14px;
+  cursor: pointer;
+  text-align: left;
+  user-select: none;
+  clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  transition: transform var(--dur-micro) ease, border-color var(--dur-micro) ease;
+}
+
+.battle-cmd-btn:hover {
+  transform: translateY(-2px);
+  border-color: var(--blood);
+  color: #FFF;
+}
+
+/* Active Battle Command with Mini-GIF selector */
+.battle-cmd-btn.is-active {
+  background: var(--blood);
+  color: #FFFFFF;
+  border-color: var(--gold);
+  transform: scale(1.04) translateY(-2px);
+  box-shadow: 4px 4px 0 var(--gold), 6px 6px 0 var(--ink);
+  z-index: 5;
+  animation: miniGifBrush 380ms steps(4) infinite;
+}
+
+.cmd-icon-wrap {
+  width: 24px;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  color: var(--gold);
+}
+
+.cmd-icon-wrap svg,
+.cmd-svg {
+  width: 100%;
+  height: 100%;
+}
+
+.enemy-intent-cartouche .intent-icon {
+  width: 16px;
+  height: 16px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.enemy-intent-cartouche .intent-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.hero-block-badge svg {
+  width: 14px;
+  height: 14px;
+  vertical-align: -2px;
+  display: inline-block;
+  margin-right: 4px;
+}
+
+.cmd-title {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.cmd-cost {
+  font-family: var(--font-numeric);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: var(--gold);
+}
+
+.battle-cmd-btn.is-active .cmd-cost {
+  color: #FFE58F;
+}
+
+.cmd-sub {
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-size: 0.85rem;
+  color: #FCE8E8;
+  margin-top: 2px;
+}
+
+/* Hero Status Box */
+.hero-combat-status {
+  background: rgba(18, 12, 12, 0.95);
+  border-right: 6px solid var(--gold);
+  border-top: 1px solid #4D3512;
+  border-bottom: 2px solid var(--ink);
+  padding: 16px 20px;
+  min-width: 260px;
+  box-shadow: 6px 6px 0 var(--ink);
+}
+
+.hero-status-row {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-numeric);
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+}
+
+.hero-tag {
+  color: var(--ash);
+}
+
+.hero-tag-bonus {
+  color: #FF5E68;
+  font-weight: bold;
+}
+
+.hero-hp-gouge {
+  height: 20px;
+  background: #080606;
+  border: 1px solid var(--gold-dim);
+  margin: 8px 0;
+  clip-path: polygon(0 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
+  overflow: hidden;
+}
+
+.hero-hp-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #9E741B, var(--gold));
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+}
+
+.hero-hp-text {
+  font-family: var(--font-numeric);
+  font-size: 0.75rem;
+  color: #0A0909;
+  font-weight: bold;
+}
+
+.hero-block-badge {
+  font-family: var(--font-numeric);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  color: var(--bone);
+  background: #243545;
+  padding: 2px 8px;
+  border: 1px solid #4A6E8C;
+  width: fit-content;
+}
+
+/* Reaction Parry Bar */
+.battle-reaction-bar {
+  position: relative;
+  z-index: 10;
+  background: #471418;
+  border: 2px solid var(--blood);
+  padding: 10px 18px;
+  box-shadow: 4px 4px 0 var(--ink);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.reaction-prompt {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.reaction-badge {
+  font-family: var(--font-numeric);
+  font-size: 0.85rem;
+  background: #FFF;
+  color: var(--blood);
+  padding: 2px 8px;
+  font-weight: bold;
+}
+
+.reaction-desc {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--bone);
+}
+
+.reaction-timer-track {
+  height: 8px;
+  background: #140809;
+  border: 1px solid var(--ink);
+  overflow: hidden;
+}
+
+.reaction-timer-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold), #FFF);
+  width: 100%;
+  animation: parryTimer 3s linear infinite;
+}
+
+@keyframes parryTimer {
+  0% { width: 100%; }
+  100% { width: 0%; }
+}
+
+/* ---------------------------------------------------------------------
+   4. MEDIEVAL CHISELED WEDGE BUTTON
+   --------------------------------------------------------------------- */
+.btn-wedge {
+  --btn-bg: #1A1414;
+  --btn-fg: var(--bone);
+  --btn-accent: var(--blood);
+  --btn-border: #4D3335;
+  --btn-shadow: var(--shadow-hard-md);
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 50px;
+  min-width: 150px;
+  padding: 12px 28px;
+  border: 2px solid var(--btn-border);
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.15rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  user-select: none;
+  clip-path: polygon(14px 0%, 100% 0%, calc(100% - 14px) 100%, 0% 100%);
+  box-shadow: var(--btn-shadow);
+  transition: transform var(--dur-micro) var(--ease-sharp),
+              box-shadow var(--dur-micro) var(--ease-sharp),
+              background var(--dur-micro) ease,
+              color var(--dur-micro) ease,
+              border-color var(--dur-micro) ease;
+}
+
+.btn-wedge::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 6px;
+  height: 100%;
+  background: var(--btn-accent);
+  transition: width var(--dur-micro) ease;
+}
+
+.btn-wedge:hover:not(:disabled):not(.is-disabled) {
+  transform: translate(-3px, -3px);
+  box-shadow: 8px 8px 0 var(--ink);
+  border-color: var(--btn-accent);
+  color: #FFFFFF;
+}
+
+.btn-wedge:hover:not(:disabled):not(.is-disabled)::after {
+  width: 12px;
+}
+
+.btn-wedge:focus-visible {
+  outline: 3px solid var(--bone);
+  outline-offset: 4px;
+}
+
+.btn-wedge:active:not(:disabled):not(.is-disabled) {
+  transform: translate(3px, 3px);
+  box-shadow: 1px 1px 0 var(--ink);
+}
+
+.btn-wedge.is-selected {
+  background: #D91B24;
+  color: #FFFFFF;
+  border-color: var(--bone);
+  transform: scale(1.06) translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--gold), 10px 10px 0 var(--ink);
+  z-index: 5;
+}
+
+.btn-wedge.is-selected::after {
+  background: var(--gold);
+  width: 16px;
+}
+
+.btn-wedge:disabled,
+.btn-wedge.is-disabled {
+  opacity: 0.45;
+  filter: grayscale(0.8);
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: 2px 2px 0 var(--ink) !important;
+}
+
+.btn-wedge.is-playable {
+  border-color: var(--gold);
+  box-shadow: 0 0 16px rgba(214, 168, 56, 0.6), 5px 5px 0 var(--ink);
+  animation: wedgePulse 2s infinite ease-in-out;
+}
+
+@keyframes wedgePulse {
+  0%, 100% { border-color: var(--gold); }
+  50% { border-color: #FFF; box-shadow: 0 0 24px rgba(214, 168, 56, 0.9), 5px 5px 0 var(--ink); }
+}
+
+.btn-wedge__badge {
+  font-family: var(--font-numeric);
+  font-size: 0.9em;
+  padding: 1px 7px;
+  background: var(--ink);
+  color: var(--gold);
+  border: 1px solid var(--ash);
+  clip-path: polygon(0 0, 100% 0, 85% 100%, 15% 100%);
+}
+
+/* ---------------------------------------------------------------------
+   5. SLASH BANNER (MEDIEVAL ILLUMINATED SLICE)
+   --------------------------------------------------------------------- */
+.slash-banner {
+  position: relative;
+  background: #EFE7DA;
+  color: var(--ink);
+  padding: 22px 42px;
+  transform: skewX(var(--skew-md));
+  box-shadow: 8px 8px 0 var(--blood), 16px 16px 0 var(--ink);
+  margin: 28px 0;
+  border-left: 12px solid var(--blood);
+  overflow: hidden;
+}
+
+.slash-banner__inner {
+  transform: skewX(var(--skew-inv-md));
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.slash-banner__meta {
+  font-family: var(--font-numeric);
+  font-size: 0.85rem;
+  letter-spacing: 0.25em;
+  color: var(--rust);
+  text-transform: uppercase;
+}
+
+.slash-banner__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4.5vw, 3.4rem);
+  font-weight: 900;
+  line-height: 1;
+  color: var(--ink);
+  text-transform: none;
+  position: relative;
+}
+
+.slash-banner__title::after {
+  content: attr(data-echo);
+  position: absolute;
+  left: 3px;
+  top: 3px;
+  color: rgba(217, 27, 36, 0.35);
+  z-index: -1;
+  pointer-events: none;
+}
+
+.slash-banner__sub {
+  margin: 0;
+  font-family: var(--font-accent);
+  font-size: 1.3rem;
+  font-style: italic;
+  font-weight: 600;
+  color: #382522;
+}
+
+/* ---------------------------------------------------------------------
+   6. TEXTURES: OIL CANVAS & IMPASTO BRUSH WASH
+   --------------------------------------------------------------------- */
+.texture-canvas {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: calc(var(--canvas-opacity) * var(--texture-intensity));
+  mix-blend-mode: overlay;
+  z-index: 998;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='canvasNoise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.8  0 0 0 0 0.7  0 0 0 0 0.6  0 0 0 0.6 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23canvasNoise)'/%3E%3C/svg%3E");
+}
+
+.texture-grain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: calc(0.12 * var(--texture-intensity));
+  mix-blend-mode: soft-light;
+  z-index: 999;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* UI Simplificada Mode */
+.ui-simplified .texture-canvas,
+.ui-simplified .texture-grain {
+  display: none !important;
+}
+
+.ui-simplified .metaphor-cascade {
+  transform: none !important;
+}
+
+.ui-simplified .cascade-item {
+  transform: none !important;
+}
+
+.ui-simplified .slash-banner {
+  transform: none !important;
+  border-left: 6px solid var(--blood);
+  box-shadow: 4px 4px 0 var(--ink);
+}
+
+.ui-simplified .slash-banner__inner {
+  transform: none !important;
+}
+
+/* ---------------------------------------------------------------------
+   7. SHARD WIPE: SWORD / BRUSHSTROKE SLASH CINEMATIC TRANSITION
+   --------------------------------------------------------------------- */
+.shard-wipe-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  pointer-events: none;
+  overflow: hidden;
+  display: none;
+}
+
+.shard-wipe-overlay.is-active {
+  display: block;
+}
+
+.shard-wipe-layer {
+  position: absolute;
+  inset: 0;
+}
+
+.shard-wipe-layer--ink {
+  background: #0A0909;
+  clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+  animation: shardWipeInk 520ms cubic-bezier(0.77, 0, 0.175, 1) forwards;
+}
+
+.shard-wipe-layer--blood {
+  background: #D91B24;
+  clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+  animation: shardWipeBlood 480ms cubic-bezier(0.85, 0, 0.15, 1) forwards 40ms;
+}
+
+.shard-wipe-layer--bone {
+  background: #F0EAE1;
+  clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+  animation: shardWipeBone 450ms cubic-bezier(0.85, 0, 0.15, 1) forwards 80ms;
+}
+
+@keyframes shardWipeInk {
+  0% {
+    clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+  }
+  45% {
+    clip-path: polygon(0 0, 100% 0, 70% 100%, 0 100%);
+  }
+  80% {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+  100% {
+    clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
+  }
+}
+
+@keyframes shardWipeBlood {
+  0% {
+    clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+  }
+  50% {
+    clip-path: polygon(0 0, 88% 0, 52% 100%, 0 100%);
+  }
+  100% {
+    clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
+  }
+}
+
+@keyframes shardWipeBone {
+  0% {
+    clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+  }
+  50% {
+    clip-path: polygon(0 0, 65% 0, 32% 100%, 0 100%);
+  }
+  100% {
+    clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
+  }
+}
+
+/* Reduced Motion Mode */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .shard-wipe-layer {
+    animation: none !important;
+  }
+  .shard-wipe-overlay.is-active {
+    display: block;
+    background: var(--ink);
+    opacity: 0.95;
+    animation: reducedFade 120ms ease forwards !important;
+  }
+  @keyframes reducedFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+}
+
+/* ---------------------------------------------------------------------
+   8. ATLUS CRITICAL EYE CUT-IN SLASH (CORTE CRÍTICO DE OJOS)
+   --------------------------------------------------------------------- */
+.critical-cutin-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 500;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.critical-cutin-layer.is-active {
+  visibility: visible;
+  opacity: 1;
+  animation: cutinFlash 1200ms ease forwards;
+}
+
+.cutin-banner {
+  position: relative;
+  width: 120%;
+  height: 140px;
+  background: linear-gradient(135deg, #810100 0%, #630000 65%, #350000 100%);
+  transform: rotate(-4deg) scaleX(0);
+  transform-origin: left center;
+  box-shadow: 0 0 35px rgba(0,0,0,0.9), 0 10px 0 #1B1717;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.critical-cutin-layer.is-active .cutin-banner {
+  animation: cutinSlashIn 1200ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes cutinSlashIn {
+  0% {
+    transform: rotate(-4deg) scaleX(0);
+    opacity: 0;
+  }
+  14% {
+    transform: rotate(-4deg) scaleX(1);
+    opacity: 1;
+  }
+  80% {
+    transform: rotate(-4deg) scaleX(1) translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(-4deg) scaleX(1.08) translateY(-8px);
+    opacity: 0;
+  }
+}
+
+/* Torn jagged paper edges on top and bottom */
+.cutin-banner::before,
+.cutin-banner::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 18px;
+  background: #0A0909;
+  z-index: 5;
+}
+
+.cutin-banner::before {
+  top: 0;
+  clip-path: polygon(0% 0%, 100% 0%, 98% 85%, 92% 40%, 85% 90%, 75% 30%, 65% 85%, 55% 25%, 45% 80%, 35% 20%, 25% 90%, 15% 35%, 5% 80%, 0% 100%);
+}
+
+.cutin-banner::after {
+  bottom: 0;
+  clip-path: polygon(0% 100%, 100% 100%, 97% 15%, 90% 65%, 82% 10%, 72% 70%, 60% 15%, 50% 75%, 40% 20%, 30% 80%, 20% 10%, 10% 65%, 0% 0%);
+}
+
+/* Intense Eyes SVG Graphic */
+.cutin-eyes-art {
+  position: absolute;
+  width: 100%;
+  max-width: 900px;
+  height: 100%;
+  z-index: 3;
+}
+
+.cutin-label {
+  position: absolute;
+  right: 8%;
+  bottom: 18px;
+  z-index: 10;
+  font-family: var(--font-numeric);
+  font-size: 1.6rem;
+  letter-spacing: 0.2em;
+  color: #FFFFFF;
+  text-shadow: 2px 2px 0 #000, 0 0 10px rgba(0,0,0,0.8);
+  transform: skewX(-12deg);
+}
+
+.cutin-slash-kana {
+  position: absolute;
+  left: 6%;
+  top: 15px;
+  z-index: 10;
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: #F0EAE1;
+  text-shadow: 3px 3px 0 #000;
+  letter-spacing: 0.1em;
+}
+
+@keyframes cutinFlash {
+  0% { filter: brightness(1.8); }
+  20% { filter: brightness(1); }
+  85% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* ---------------------------------------------------------------------
+   9. METAPHOR COMMANDER PROFILE & HERALDRY (SECCIÓN DE PERFIL)
+   --------------------------------------------------------------------- */
+.profile-frame {
+  position: relative;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  min-height: 520px;
+  background: radial-gradient(circle at 80% 20%, #2A1517 0%, #1B1717 65%, #120F0F 100%);
+  border: 2px solid #3D1E22;
+  box-shadow: 10px 10px 0 var(--ink), 0 0 40px rgba(0,0,0,0.85);
+  padding: 32px 40px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.profile-header-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(237, 235, 221, 0.2);
+  padding-bottom: 16px;
+  margin-bottom: 28px;
+}
+
+.profile-header-title {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: var(--cotton);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  letter-spacing: 0.04em;
+}
+
+.prof-svg {
+  width: 20px;
+  height: 20px;
+  color: var(--cherry-red);
+}
+
+.supabase-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-numeric);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  padding: 4px 12px;
+  border: 1px solid;
+  border-radius: 2px;
+}
+
+.supabase-status-pill.is-online {
+  border-color: #2E7340;
+  background: rgba(46, 115, 64, 0.2);
+  color: #72C787;
+}
+
+.supabase-status-pill.is-offline {
+  border-color: var(--maroon);
+  background: rgba(99, 0, 0, 0.25);
+  color: #E09090;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.profile-layout-grid {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 36px;
+  position: relative;
+  z-index: 10;
+}
+
+@media (max-width: 860px) {
+  .profile-layout-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.profile-portrait-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.profile-avatar-frame {
+  position: relative;
+  width: 100%;
+  height: 280px;
+  background: #141011;
+  border: 2px solid var(--maroon);
+  box-shadow: 6px 6px 0 var(--ink);
+  overflow: hidden;
+}
+
+.profile-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  filter: contrast(1.05);
+}
+
+.profile-avatar-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 60%, rgba(27, 23, 23, 0.95) 100%);
+  pointer-events: none;
+}
+
+.profile-rank-tag {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  background: var(--cherry-red);
+  color: var(--cotton);
+  font-family: var(--font-numeric);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  padding: 2px 8px;
+  box-shadow: 2px 2px 0 var(--ink);
+}
+
+.profile-name-strip {
+  border-left: 3px solid var(--cherry-red);
+  padding-left: 12px;
+}
+
+.profile-name-display {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.profile-name-txt {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  margin: 0;
+  color: var(--cotton);
+}
+
+.profile-title-txt {
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-size: 0.95rem;
+  color: #B5A89E;
+}
+
+.profile-btn-icon {
+  background: none;
+  border: none;
+  color: var(--gold);
+  cursor: pointer;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+}
+
+.profile-btn-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.profile-name-edit {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.profile-input {
+  background: #100C0D;
+  border: 1px solid var(--maroon);
+  color: var(--cotton);
+  padding: 4px 8px;
+  font-family: var(--font-body);
+  font-size: 1rem;
+}
+
+.profile-btn-sm {
+  background: var(--cherry-red);
+  border: 1px solid var(--cotton);
+  color: var(--cotton);
+  font-family: var(--font-numeric);
+  font-size: 0.75rem;
+  padding: 4px 10px;
+  cursor: pointer;
+}
+
+.profile-actions-row {
+  display: flex;
+  gap: 10px;
+}
+
+.profile-action-btn {
+  flex: 1;
+  background: #241416;
+  border: 1px solid var(--maroon);
+  color: var(--cotton);
+  font-family: var(--font-numeric);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  padding: 8px 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: background 150ms ease, border-color 150ms ease;
+}
+
+.profile-action-btn:hover {
+  background: var(--cherry-red);
+  border-color: var(--cotton);
+}
+
+.profile-stats-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.profile-subheading {
+  font-family: var(--font-numeric);
+  font-size: 0.9rem;
+  letter-spacing: 0.2em;
+  color: var(--gold);
+  margin: 0;
+}
+
+.profile-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+.stat-chiseled-box {
+  background: #141011;
+  border: 1px solid #351A1D;
+  padding: 14px 18px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 4px 4px 0 var(--ink);
+}
+
+.stat-number {
+  font-family: var(--font-numeric);
+  font-size: 2.2rem;
+  line-height: 1;
+  color: var(--cotton);
+}
+
+.stat-label {
+  font-family: var(--font-numeric);
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  color: #8C7D73;
+  margin-top: 6px;
+}
+
+.profile-vow-box {
+  background: #1B1214;
+  border: 1px solid var(--maroon);
+  padding: 16px 20px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.vow-crest-icon svg {
+  width: 50px;
+  height: 50px;
+}
+
+.vow-title {
+  font-family: var(--font-numeric);
+  font-size: 0.82rem;
+  letter-spacing: 0.15em;
+  color: var(--cherry-red);
+  font-weight: bold;
+}
+
+.vow-desc {
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-size: 0.95rem;
+  color: #D6CBC0;
+  margin: 4px 0 0;
+  line-height: 1.4;
+}
+
+.profile-cloud-meta {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-numeric);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: #85746A;
+  padding-top: 10px;
+  border-top: 1px solid rgba(237, 235, 221, 0.1);
+}

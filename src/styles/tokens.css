@@ -1,0 +1,311 @@
+/* =====================================================================
+   GRAVECROWN DESIGN TOKENS
+   Metaphor Medieval Grimdark Painterly Fantasy
+   High-contrast kinetic gothic serif typography, oil brushstrokes & cartographic engravings
+   ===================================================================== */
+
+/* ---------------------------------------------------------------------
+   SELF-HOSTED OFL FONTS (WITH STRICT UNICODE-RANGE SUBSETS)
+   --------------------------------------------------------------------- */
+
+/* 0. Metal Gothic (High-Legibility Blackletter Display Font) */
+@font-face {
+  font-family: 'Metal Gothic';
+  src: url('/assets/fonts/metal-gothic-regular.woff2') format('woff2');
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0100-02BA, U+2000-206F, U+20AC, U+2122;
+}
+
+/* 1. UnifrakturCook (Authentic Sharp Medieval Fraktur Gothic) */
+@font-face {
+  font-family: 'UnifrakturCook';
+  src: url('/assets/fonts/unifrakturcook-latin-700-normal.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* 2. Pirata One (Condensed Angular Medieval Gothic) */
+@font-face {
+  font-family: 'Pirata One';
+  src: url('/assets/fonts/pirata-one-latin-ext-400-normal.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Pirata One';
+  src: url('/assets/fonts/pirata-one-latin-400-normal.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* 3. Grenze Gotisch (Variable 100-900) */
+@font-face {
+  font-family: 'Grenze Gotisch';
+  src: url('/assets/fonts/grenze-gotisch-latin-ext-wght-normal.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Grenze Gotisch';
+  src: url('/assets/fonts/grenze-gotisch-latin-wght-normal.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* 4. IM Fell English (Regular 400 + Italic 400) */
+@font-face {
+  font-family: 'IM Fell English';
+  src: url('/assets/fonts/im-fell-english-latin-400-normal.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'IM Fell English';
+  src: url('/assets/fonts/im-fell-english-latin-400-italic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* 5. Cormorant Garamond (400, 600 - Normal & Italic) */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  src: url('/assets/fonts/cormorant-garamond-latin-ext-400-normal.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Cormorant Garamond';
+  src: url('/assets/fonts/cormorant-garamond-latin-400-normal.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Cormorant Garamond';
+  src: url('/assets/fonts/cormorant-garamond-latin-ext-400-italic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Cormorant Garamond';
+  src: url('/assets/fonts/cormorant-garamond-latin-400-italic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Cormorant Garamond';
+  src: url('/assets/fonts/cormorant-garamond-latin-ext-600-normal.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Cormorant Garamond';
+  src: url('/assets/fonts/cormorant-garamond-latin-600-normal.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* 6. Anton (400 Normal) */
+@font-face {
+  font-family: 'Anton';
+  src: url('/assets/fonts/anton-latin-ext-400-normal.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Anton';
+  src: url('/assets/fonts/anton-latin-400-normal.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  /* Metaphor Medieval Painterly Palette (Reference: Cotton, Cherry Red, Maroon, Noir Black) */
+  --cotton: #EDEBDD;         /* Cotton antique vellum */
+  --cherry-red: #810100;     /* Cherry red oil impasto */
+  --maroon: #630000;         /* Deep maroon blood */
+  --noir-black: #1B1717;     /* Noir black charcoal */
+
+  --ink: var(--noir-black);
+  --bone: var(--cotton);
+  --blood: var(--cherry-red);
+  --maroon-deep: var(--maroon);
+  --verdigris: #2C6B6F;      /* Verdigris wash / oxidized turquoise */
+  --rust: #630000;           /* Burnt sienna / dry iron */
+  --ash: #5A4E4D;            /* Charcoal wash */
+  --gold: #D6A838;           /* Gilded illumination leaf */
+  --gold-dim: #9E7A23;
+  --parchment: #221D1D;
+
+  /* Reference Rich Gradients */
+  --grad-cherry-maroon: linear-gradient(135deg, #810100 0%, #630000 100%);
+  --grad-noir-maroon: linear-gradient(180deg, #1B1717 0%, #2B1416 60%, #630000 100%);
+  --grad-cotton-parchment: linear-gradient(180deg, #FAF8F2 0%, #EDEBDD 100%);
+
+  /* Card Type Medieval Pigments */
+  --accent-attack: #810100;       /* Cherry red / blood */
+  --accent-defense: #3C6378;      /* Prussian steel */
+  --accent-technique: #D68C24;    /* Raw amber */
+  --accent-stance: #D68C24;
+  --accent-magic: #6D268E;        /* Royal tyrian / amethyst */
+  --accent-reaction: #2E7340;     /* Verdigris malachite */
+  --accent-curse: #630000;        /* Maroon / dried gore */
+
+  /* Typography Families - Pure Medieval Gothic as primary */
+  --font-display: 'Metal Gothic', 'Pirata One', 'Grenze Gotisch', Georgia, serif;
+  --font-gothic-alt: 'Pirata One', 'Grenze Gotisch', Georgia, serif;
+  --font-body: 'IM Fell English', Georgia, serif;
+  --font-accent: 'Cormorant Garamond', Georgia, serif;
+  --font-numeric: 'Anton', Impact, sans-serif;
+
+  /* Typography Strict Rendering */
+  font-synthesis: none;
+
+  /* Fluid Typography Scale */
+  --fs-micro: clamp(0.6875rem, 0.65rem + 0.2vw, 0.75rem);
+  --fs-body: clamp(0.875rem, 0.82rem + 0.3vw, 1rem);
+  --fs-label: clamp(1rem, 0.95rem + 0.35vw, 1.1875rem);
+  --fs-title: clamp(1.375rem, 1.2rem + 1vw, 2.25rem);
+  --fs-hero: clamp(2.25rem, 1.8rem + 2.5vw, 4rem);
+  --fs-mega: clamp(3rem, 2.2rem + 4vw, 6rem);
+
+  /* Painterly Slanted Dynamics (Metaphor Style) */
+  --skew-sm: -3deg;
+  --skew-md: -6deg;
+  --skew-lg: -10deg;
+  --skew-inv-sm: 3deg;
+  --skew-inv-md: 6deg;
+  --skew-inv-lg: 10deg;
+
+  /* Chiaroscuro & Impasto Shadows */
+  --shadow-hard-xs: 2px 2px 0 var(--ink);
+  --shadow-hard-sm: 3px 3px 0 var(--ink);
+  --shadow-hard-md: 6px 6px 0 var(--ink);
+  --shadow-hard-lg: 10px 10px 0 var(--ink);
+  --shadow-hard-blood: 6px 6px 0 var(--blood);
+  --shadow-hard-gold: 5px 5px 0 var(--gold);
+  --shadow-painterly: 0 8px 24px rgba(0, 0, 0, 0.8), 4px 4px 0 var(--ink);
+
+  /* Durations & Easings */
+  --ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-sharp: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-punch: cubic-bezier(0.05, 0.9, 0.1, 1.1);
+  --dur-micro: 140ms;
+  --dur-ui: 240ms;
+  --dur-screen: 420ms;
+
+  /* Canvas & Paint Textures */
+  --texture-intensity: 1;
+  --canvas-opacity: 0.18;
+  --brush-opacity: 0.22;
+
+  /* Theme variables (Default: Combat) */
+  --theme-bg-tint: #140E0E;
+  --theme-accent: var(--blood);
+  --theme-secondary: var(--bone);
+  --theme-surface: #1B1413;
+  --theme-highlight: #FF3B47;
+  --theme-border: #4D181D;
+  --theme-brush: #D91B24;
+}
+
+/* Theme per screen with data-theme */
+[data-theme="combat"] {
+  --theme-bg-tint: #140C0D;
+  --theme-accent: #D91B24;
+  --theme-secondary: #F0EAE1;
+  --theme-surface: #1C1213;
+  --theme-highlight: #FF3B47;
+  --theme-border: #57171C;
+  --theme-brush: #D91B24;
+}
+
+[data-theme="map"] {
+  --theme-bg-tint: #0B161E;
+  --theme-accent: #2C6B6F;
+  --theme-secondary: #D9EBF0;
+  --theme-surface: #101F29;
+  --theme-highlight: #47A4A9;
+  --theme-border: #1E4652;
+  --theme-brush: #2C6B6F;
+}
+
+[data-theme="shop"] {
+  --theme-bg-tint: #1A150D;
+  --theme-accent: #D6A838;
+  --theme-secondary: #F4EEDC;
+  --theme-surface: #241C11;
+  --theme-highlight: #FFD45E;
+  --theme-border: #6B5216;
+  --theme-brush: #D6A838;
+}
+
+[data-theme="event"], [data-theme="npc"] {
+  --theme-bg-tint: #0E170F;
+  --theme-accent: #2E7340;
+  --theme-secondary: #D8EBDC;
+  --theme-surface: #142116;
+  --theme-highlight: #4ABF68;
+  --theme-border: #1D4A29;
+  --theme-brush: #2E7340;
+}
+
+[data-theme="relic"], [data-theme="fearsome"] {
+  --theme-bg-tint: #150B1C;
+  --theme-accent: #6D268E;
+  --theme-secondary: #D6A838;
+  --theme-surface: #1E1029;
+  --theme-highlight: #B34AE8;
+  --theme-border: #4E186B;
+  --theme-brush: #6D268E;
+}
+
+[data-theme="rest"] {
+  --theme-bg-tint: #1C1008;
+  --theme-accent: #D68C24;
+  --theme-secondary: #F5E8D6;
+  --theme-surface: #29170B;
+  --theme-highlight: #FFA83B;
+  --theme-border: #6E400E;
+  --theme-brush: #D68C24;
+}
